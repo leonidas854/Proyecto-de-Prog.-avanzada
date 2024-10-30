@@ -5,7 +5,7 @@ git clone https://github.com/leonidas854/Proyecto-de-Prog.-avanzada.git
 
 
 Obtener los últimos cambios del repositorio remoto.
-git pull origin main
+git pull origin master
 
 Realizar los cambios del código 
 
@@ -14,11 +14,11 @@ git add .
 git commit -m "Descripción de los cambios realizados"
 
 Actualizar los últimos cambios realizado, aseguramos tener últimos cambios
-git pull origin main
+git pull origin master
 
 
 Luego actualizar los cambios realizado 
-git push origin main
+git push origin master
 
 
 
