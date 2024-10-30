@@ -1,0 +1,25 @@
+Clonar el Repositorio en su Computadora
+es el primer y solo realizar una vez
+git clone https://github.com/leonidas854/Proyecto-de-Prog.-avanzada.git
+
+
+
+Obtener los últimos cambios del repositorio remoto.
+git pull origin main
+
+Realizar los cambios del código 
+
+Al realizar los cambios, con esto se confirma
+git add .
+git commit -m "Descripción de los cambios realizados"
+
+Actualizar los últimos cambios realizado, aseguramos tener últimos cambios
+git pull origin main
+
+
+Luego actualizar los cambios realizado 
+git push origin main
+
+
+
+
