@@ -1,0 +1,66 @@
+Tablas Principales
+
+
+Usuarios
+ID_Usuario (PK): Identificador único para cada usuario. (Long)
+Nombre: Nombre del usuario. (String)
+Email: Correo electrónico único del usuario. (String, UNIQUE)
+Password_Hash: Contraseña en formato hash. (String)
+Rol: Rol del usuario en el sistema (por ejemplo, 'ADMIN', 'COORDINADOR', 'CONDUCTOR'). (String)
+Fecha_Creacion: Fecha de creación de la cuenta. (Timestamp)
+
+
+Vehículos
+ID_Vehiculo (PK): Identificador único para cada vehículo. (Long)
+Placa: Placa única del vehículo. (String, UNIQUE)
+Capacidad_Kg: Capacidad máxima de carga del vehículo en kilogramos. (Integer)
+Disponibilidad: Estado de disponibilidad del vehículo (por ejemplo, 'DISPONIBLE', 'EN_RUTA'). (Boolean)
+Fecha_Mantenimiento: Fecha del último mantenimiento del vehículo. (Date)
+Tipo_Vehiculo: Tipo de vehículo (por ejemplo, 'CAMION', 'FURGONETA'). (String)
+
+
+Ubicaciones
+ID_Ubicacion (PK): Identificador único para cada ubicación. (Long)
+Nombre: Nombre de la ubicación, como cliente o centro de distribución. (String)
+Latitud: Latitud de la ubicación. (BigDecimal)
+Longitud: Longitud de la ubicación. (BigDecimal)
+Tipo: Tipo de ubicación, ya sea cliente o centro de distribución (por ejemplo, 'CLIENTE', 'DISTRIBUCION'). (String)
+Fecha_Registro: Fecha en que se registró la ubicación. (Date)
+
+
+Rutas
+ID_Ruta (PK): Identificador único para cada ruta. (Long)
+ID_Vehiculo (FK): Identificador del vehículo asignado a la ruta. (Long, FOREIGN KEY hacia Vehiculos)
+Fecha: Fecha en que se realiza la ruta. (LocalDate)
+Distancia_Total: Distancia total de la ruta en kilómetros. (BigDecimal)
+Tiempo_Total: Tiempo total estimado para completar la ruta en minutos. (Integer)
+Costo: Costo asociado a la ruta (por ejemplo, costo por km). (BigDecimal)
+Estado: Estado de la ruta (por ejemplo, 'PLANIFICADA', 'COMPLETADA', 'CANCELADA'). (String)
+
+
+Itinerarios
+ID_Itinerario (PK): Identificador único para cada itinerario. (Long)
+ID_Ruta (FK): Relación con la tabla de Rutas para asociar el itinerario. (Long, FOREIGN KEY hacia Rutas)
+ID_Ubicacion (FK): Relación con la tabla de Ubicaciones para cada punto de la ruta. (Long, FOREIGN KEY hacia Ubicaciones)
+Orden: Orden de parada dentro de la ruta. (Integer)
+Hora_Llegada_Estimada: Hora estimada de llegada a la ubicación. (Time)
+Hora_Salida_Estimada: Hora estimada de salida de la ubicación. (Time)
+
+
+Demandas
+ID_Demanda (PK): Identificador único para cada registro de demanda. (Long)
+Fecha: Fecha de registro de la demanda. (LocalDate)
+Demanda_Proyectada: Valor proyectado de demanda para el período de tiempo. (BigDecimal)
+Parametros_Utilizados: Descripción de los parámetros utilizados para la proyección. (String)
+Cantidad: Cantidad de producto o carga solicitada. (Integer)
+ID_Ubicacion_Origen (FK): Identificador de la ubicación de origen. (Long, FOREIGN KEY hacia Ubicaciones)
+ID_Ubicacion_Destino (FK): Identificador de la ubicación de destino. (Long, FOREIGN KEY hacia Ubicaciones)
+
+
+Reportes
+ID_Reporte (PK): Identificador único para cada reporte generado. (Long)
+Nombre_Reporte: Nombre descriptivo del reporte. (String)
+Tipo_Reporte: Tipo de reporte, como PDF o Excel. (String)
+Fecha_Generacion: Fecha en que se generó el reporte. (LocalDate)
+Ruta_Archivo: Ubicación del archivo del reporte en el sistema. (String)
+Descripcion: Descripción o resumen del contenido del reporte. (Text)
