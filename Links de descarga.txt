@@ -1,0 +1,4 @@
+https://maven.apache.org/download.cgi
+https://www.postman.com/downloads/
+https://tableplus.com/
+https://www.docker.com/get-started/
