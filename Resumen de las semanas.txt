@@ -1,0 +1,4 @@
+Resumen de Funcionalidades Completadas por Semana
+Semana 1: Registro de ubicaciones, visualización de rutas y asignación de vehículos (Historias de Usuario 2.3.1, 2.3.2 y 3.3.1).
+Semana 2: Optimización de rutas con restricciones, itinerarios en móviles, seguimiento en tiempo real y rutas alternativas (Historias de Usuario 2.3.3 a 2.3.5, 3.3.2, y 3.3.3).
+Semana 3: Predicción de demanda, simulación de escenarios, ajustes de predicción y generación de reportes (Historias de Usuario 3.3.4, 3.3.5, y 4.3.1 a 4.3.5).

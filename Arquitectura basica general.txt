@@ -1,0 +1,5 @@
+Backend: Desarrollado en Spring Boot, expone una API REST que interactúa con la base de datos (PostgreSQL) y permite realizar cálculos y simulaciones en segundo plano. Implementa seguridad con JWT para proteger los endpoints y actualizar el estado en tiempo real con WebSockets o HTTP/2.
+
+Frontend: SPA en React o Vue.js que consume la API REST del backend. La interfaz permite la visualización en tiempo real de la ruta y ubicación de entregas, el registro de nuevas ubicaciones y la configuración de capacidades de vehículos.
+
+Actualización en Tiempo Real: Socket.IO permite el monitoreo en tiempo real, por ejemplo, para actualizar el estado de las entregas o la visualización de rutas dinámicas en el mapa.

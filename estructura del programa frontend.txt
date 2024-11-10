@@ -1,0 +1,29 @@
+frontend/
+│
+├── public/                        # Archivos públicos (HTML principal, favicon)
+├── src/                           # Código fuente de frontend
+│   ├── assets/                    # Recursos como imágenes, íconos
+│   ├── components/                # Componentes reutilizables de la interfaz
+│   │   ├── FileUpload.js          # Componente para cargar archivos
+│   │   ├── ReportDownload.js      # Componente para descargar reportes
+│   │   ├── MapView.js             # Componente de visualización de rutas (Leaflet)
+│   │   └── ...
+│   │
+│   ├── pages/                     # Páginas principales de la aplicación
+│   │   ├── Home.js
+│   │   ├── Login.js
+│   │   ├── Inventory.js           # Página para gestión de inventario
+│   │   ├── Routes.js              # Página para optimización y visualización de rutas
+│   │   └── Reports.js             # Página para generación y visualización de reportes
+│   │
+│   ├── services/                  # Servicios para consumo de API del backend
+│   │   ├── api.js                 # Configuración de Axios y base URL
+│   │   ├── fileService.js         # Funciones para cargar/descargar archivos
+│   │   ├── reportService.js       # Funciones para solicitar reportes
+│   │   └── routeService.js        # Funciones para cálculo de rutas
+│   │
+│   ├── App.js                     # Componente principal de la aplicación
+│   └── index.js                   # Punto de entrada de la aplicación
+│
+├── package.json                   # Dependencias del frontend (React o Vue)
+└── .env                           # Variables de entorno (URL del backend, etc.)

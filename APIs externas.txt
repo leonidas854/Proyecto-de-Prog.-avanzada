@@ -1,0 +1,7 @@
+Google Maps Directions API o Mapbox Directions API: Para cálculo de rutas óptimas.
+Firebase Cloud Messaging (FCM): Envío de notificaciones a dispositivos móviles.
+Socket.IO o WebSocket: Seguimiento en tiempo real.
+JGraphT: Manejo de grafos y optimización de rutas.
+Apache Commons Math: Predicción de demanda usando el método Runge-Kutta.
+iText o Apache PDFBox: Generación de reportes en PDF.
+Apache POI: Generación de reportes en Excel.

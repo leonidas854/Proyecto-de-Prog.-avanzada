@@ -1,0 +1,48 @@
+
+backend/
+│
+├── src/main/java/com/tuempresa/tuapp/
+│   ├── config/                    # Configuraciones de seguridad, Swagger, etc.
+│   │   ├── SwaggerConfig.java
+│   │   ├── SecurityConfig.java
+│   │   └── AppConfig.java
+│   │
+│   ├── controller/                # Controladores para manejar solicitudes HTTP
+│   │   ├── FileController.java    # Controlador para manejo de archivos
+│   │   ├── ReportController.java  # Controlador para generación de reportes
+│   │   ├── RouteController.java   # Controlador para optimización de rutas
+│   │   ├── DemandController.java  # Controlador para predicción de demanda
+│   │   └── UserController.java
+│   │
+│   ├── model/                     # Entidades de datos (JPA)
+│   │   ├── User.java
+│   │   ├── Product.java
+│   │   ├── Route.java
+│   │   ├── FileMetadata.java      # Metadatos de archivos almacenados
+│   │   └── ...
+│   │
+│   ├── repository/                # Repositorios de Spring Data JPA
+│   │   ├── UserRepository.java
+│   │   ├── ProductRepository.java
+│   │   ├── RouteRepository.java
+│   │   └── FileRepository.java
+│   │
+│   ├── service/                   # Servicios con lógica de negocio
+│   │   ├── FileService.java       # Servicio para manejo de archivos
+│   │   ├── ReportService.java     # Servicio para generación de reportes
+│   │   ├── RouteService.java      # Servicio para optimización de rutas
+│   │   ├── DemandService.java     # Servicio para predicción de demanda
+│   │   └── UserService.java
+│   │
+│   ├── util/                      # Utilidades y helpers
+│   │   ├── FileUtil.java          # Helper para operaciones con archivos
+│   │   ├── ReportUtil.java        # Helper para generación de archivos PDF/Excel
+│   │   └── RouteUtil.java         # Algoritmos y utilidades de cálculo de rutas
+│   │
+│   └── Application.java           # Clase principal para ejecutar Spring Boot
+│
+├── src/main/resources/
+│   ├── application.properties     # Configuración de base de datos, servidor, etc.
+│   └── static/                    # Archivos estáticos (opcional)
+│
+└── pom.xml                        # Dependencias de Maven

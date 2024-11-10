@@ -1,0 +1,24 @@
+Para el frontend, puedes elegir React o Vue.js. Ambos son adecuados para una aplicación SPA (Single Page Application) que consuma la API del backend y visualice rutas y reportes. Aquí te detallo las tecnologías esenciales para cada opción.
+
+Dependencias para React (Alternativa en Vue.js)
+React o Vue: Biblioteca principal para construir la interfaz de usuario.
+
+Paquete: react y react-dom o vue
+React Router o Vue Router: Para la navegación dentro de la aplicación SPA.
+
+Paquete: react-router-dom o vue-router
+Axios: Cliente HTTP para realizar llamadas a la API REST del backend.
+
+Paquete: axios
+Leaflet (Mapas): Para visualizar rutas y ubicaciones en el mapa.
+
+Paquete: leaflet y react-leaflet o vue2-leaflet para Vue.
+Material UI o Bootstrap: Para estilos y componentes de la interfaz.
+
+Paquete: @mui/material para Material UI o bootstrap para Bootstrap
+React Query o Vue Query: Para manejar datos y estado de consultas de API.
+
+Paquete: @tanstack/react-query o @tanstack/vue-query
+Socket.IO Client: Para implementar la actualización en tiempo real de los datos de entrega.
+
+Paquete: socket.io-client

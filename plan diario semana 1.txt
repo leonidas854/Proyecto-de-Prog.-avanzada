@@ -1,0 +1,30 @@
+Objetivos:
+Configurar el entorno de desarrollo y definir las estructuras de datos necesarias (grafo).
+Implementar funcionalidades para registrar ubicaciones y visualizar rutas, así como la asignación de vehículos a rutas en función de su capacidad y disponibilidad.
+Completar Historias de Usuario 1 y 2 del punto 2.3, y 1 del punto 3.3.
+Plan Diario:
+Día 1 (Lunes): Configuración del Proyecto y Base de Datos.
+
+Backend: Configuración del proyecto Spring Boot, base de datos y creación de las entidades principales (Cliente, Ubicación, Vehículo).
+Frontend: Configuración del proyecto en React/Vue, instalación de dependencias y estructura básica de componentes.
+Día 2 (Martes): Implementación de la estructura de datos (Grafo).
+
+Backend: Crear el grafo que representa las calles e intersecciones de la ciudad.
+Service Layer: Agregar métodos en RouteService para gestionar el grafo, como agregar nodos y arcos.
+Día 3 (Miércoles): Funcionalidad de registro de ubicaciones (Historia de Usuario 2.3.1).
+
+Backend: Crear FileController para la carga de ubicaciones de clientes y centro de distribución.
+Frontend: Crear formulario para el registro de ubicaciones.
+Día 4 (Jueves): Conectar la interfaz con el backend para registro de ubicaciones.
+
+Frontend: Enviar datos del formulario de ubicaciones al backend usando Axios.
+Backend: Guardar ubicaciones en la base de datos y mostrar un mensaje de confirmación.
+Día 5 (Viernes): Implementación de funcionalidad de visualización de rutas (Historia de Usuario 2.3.2).
+
+Backend: Implementar el cálculo de rutas óptimas en RouteService.
+Frontend: Crear un componente de mapa para mostrar las rutas optimizadas.
+Día 6 (Sábado): Asignación de vehículos según su capacidad y disponibilidad (Historia de Usuario 3.3.1).
+
+Backend: Implementar lógica de asignación de vehículos a rutas en función de la capacidad y disponibilidad en RouteService.
+Frontend: Crear una interfaz para seleccionar y asignar vehículos.
+Día 7 (Domingo): Pruebas y ajustes de funcionalidades de registro, visualización y asignación de vehículos.

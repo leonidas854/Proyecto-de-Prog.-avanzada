@@ -1,0 +1,46 @@
+Dependencias para Spring Boot
+Spring Web: Para desarrollar una API RESTful que interactúe con el frontend.
+
+Dependencia: spring-boot-starter-web
+Spring Data JPA: Para la gestión de base de datos y acceso a datos, utilizando Hibernate como ORM.
+
+Dependencia: spring-boot-starter-data-jpa
+Hibernate: ORM para manejar el mapeo de entidades con bases de datos relacionales.
+
+Dependencia incluida en: spring-boot-starter-data-jpa
+PostgreSQL Driver: Base de datos escalable y compatible con datos geoespaciales.
+
+Dependencia: org.postgresql:postgresql
+Spring Security: Para manejar la autenticación y autorización, protegiendo los endpoints de la API.
+
+Dependencia: spring-boot-starter-security
+JWT (Json Web Token): Para implementar autenticación y autorización.
+
+Dependencia: io.jsonwebtoken:jjwt
+Spring Boot Actuator: Para monitoreo y métricas del sistema, lo que facilita el análisis de rendimiento.
+
+Dependencia: spring-boot-starter-actuator
+Lombok: Simplifica la creación de entidades al reducir el código necesario para getters, setters y constructores.
+
+Dependencia: org.projectlombok:lombok
+MapStruct: Para realizar mapeos entre entidades y DTOs, ideal para estructurar y filtrar datos.
+
+Dependencia: org.mapstruct:mapstruct
+Swagger (SpringDoc OpenAPI): Para generar documentación interactiva de la API y facilitar el consumo de endpoints.
+
+Dependencia: org.springdoc:springdoc-openapi-ui
+Socket.IO (Spring Boot WebSocket): Para habilitar la funcionalidad de seguimiento en tiempo real de entregas.
+
+Dependencia: org.springframework.boot:spring-boot-starter-websocket
+Apache Commons Math: Para implementar el método Runge-Kutta en la predicción de demanda.
+
+Dependencia: org.apache.commons:commons-math3
+JGraphT: Biblioteca para implementar grafos y algoritmos de rutas, como el algoritmo del cartero chino.
+
+Dependencia: org.jgrapht:jgrapht-core
+iText o Apache PDFBox: Para generar reportes en PDF.
+
+Dependencia: com.itextpdf:itextpdf o org.apache.pdfbox:pdfbox
+Apache POI: Para generar reportes en formato Excel.
+
+Dependencia: org.apache.poi:poi y org.apache.poi:poi-ooxml

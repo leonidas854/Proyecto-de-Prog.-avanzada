@@ -1,0 +1,7 @@
+Postman : Para probar y depurar las APIs de backend.
+Swagger: Documentación automática de la API REST de Spring Boot.
+Dependencia: springdoc-openapi-ui para integrar Swagger UI.
+Jest (para React) o Mocha (para Vue): Pruebas de componentes en el frontend.
+JUnit y Mockito: Para pruebas unitarias y de integración en el backend.
+Docker: Para contenerizar la aplicación y facilitar despliegues.
+Git y GitHub/GitLab: Control de versiones y manejo colaborativo del código.

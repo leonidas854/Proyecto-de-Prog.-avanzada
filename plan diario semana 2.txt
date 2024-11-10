@@ -1,0 +1,31 @@
+Semana 2: Optimización de Rutas, Restricciones y Funcionalidades de Seguimiento y Alternativas
+Objetivos:
+Implementar la optimización de rutas con restricciones (capacidad de vehículos y ventanas de tiempo).
+Crear funcionalidades para el envío de itinerarios a dispositivos móviles, seguimiento en tiempo real, y definición de rutas alternativas en caso de tráfico elevado.
+Completar Historias de Usuario 2.3.3, 2.3.4, 2.3.5, 3.3.2, y 3.3.3.
+Plan Diario:
+Día 1 (Lunes): Implementación de restricciones de capacidad y tiempo en la optimización de rutas (Historia de Usuario 2.3.3 y 3.3.2).
+
+Backend: Modificar RouteService para incluir restricciones de capacidad de vehículos y ventanas de tiempo en el cálculo de rutas.
+Frontend: Mostrar mensajes de advertencia en la UI si alguna restricción no puede ser cumplida.
+Día 2 (Martes): Ajuste y pruebas de la funcionalidad de optimización de rutas con restricciones.
+
+Backend: Pruebas de cálculo de rutas que respeten las restricciones establecidas.
+Frontend: Ajustes en el componente de visualización de rutas para reflejar restricciones.
+Día 3 (Miércoles): Implementación de la funcionalidad de envío de itinerarios (Historia de Usuario 2.3.4).
+
+Backend: Crear un endpoint en FileController para enviar itinerarios de rutas a los dispositivos móviles.
+Frontend: Agregar botón en la interfaz para generar y enviar itinerarios.
+Día 4 (Jueves): Desarrollo de la funcionalidad de seguimiento en tiempo real (Historia de Usuario 2.3.5).
+
+Backend: Implementar WebSocket o Socket.IO para el seguimiento en tiempo real del estado de entregas.
+Frontend: Conectar el seguimiento en tiempo real para actualizar el estado de las entregas en el mapa.
+Día 5 (Viernes): Implementación de rutas alternativas en caso de tráfico elevado (Historia de Usuario 3.3.3).
+
+Backend: Agregar lógica en RouteService para recalcular rutas alternativas cuando hay tráfico alto.
+Frontend: Agregar opción en la interfaz para recalcular rutas y mostrar el tiempo estimado de viaje.
+Día 6 (Sábado): Pruebas y ajustes en las funcionalidades de envío de itinerarios, seguimiento y rutas alternativas.
+
+Todos: Pruebas completas de flujo de asignación de rutas con itinerarios y seguimiento.
+Día 7 (Domingo): Documentación de optimización de rutas, restricciones, itinerarios y rutas alternativas.
+
