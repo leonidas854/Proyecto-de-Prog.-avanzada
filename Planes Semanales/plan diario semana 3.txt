@@ -8,22 +8,28 @@ Día 1 (Lunes): Implementación de la predicción de demanda usando Runge-Kutta 
 
 Backend: Configurar DemandService para realizar cálculos de predicción utilizando el método de Runge-Kutta.
 Frontend: Crear una interfaz para seleccionar el rango de tiempo y parámetros de la predicción.
+
 Día 2 (Martes): Implementación de simulación de escenarios de transporte (Historia de Usuario 4.3.2).
 
 Backend: Crear lógica en DemandService para generar escenarios de transporte basados en demanda proyectada.
 Frontend: Interfaz para mostrar los resultados de simulación y estimación de necesidades de vehículos.
+
 Día 3 (Miércoles): Evaluación de múltiples escenarios de demanda (Historia de Usuario 4.3.3).
 
 Backend: Desarrollar lógica para evaluar escenarios y su impacto en la capacidad de transporte.
 Frontend: Crear vista para comparar distintos escenarios de demanda y su viabilidad.
+
 Día 4 (Jueves): Generación de reportes de rutas y tiempos de entrega (Historias de Usuario 3.3.5 y 4.3.4).
 
 Backend: Crear ReportService para generar reportes en PDF y Excel sobre rutas y tiempos de entrega.
 Frontend: Agregar opción de descarga de reportes en la interfaz.
+
 Día 5 (Viernes): Ajuste de parámetros de predicción de demanda y generación de reportes de simulación (Historias de Usuario 4.3.5 y 3.3.4).
 
 Backend y Frontend: Crear interfaz para ajuste de parámetros y actualizar la predicción de demanda según los cambios.
+
 Día 6 (Sábado): Pruebas finales de todas las funcionalidades y ajustes de última hora.
 
 Todos: Pruebas exhaustivas de todo el sistema, verificación de cada historia de usuario y solución de errores.
+
 Día 7 (Domingo): Documentación final, preparación de entrega y revisión de cada funcionalidad implementada.
