@@ -5,3 +5,5 @@ Jest (para React) o Mocha (para Vue): Pruebas de componentes en el frontend.
 JUnit y Mockito: Para pruebas unitarias y de integración en el backend.
 Docker: Para contenerizar la aplicación y facilitar despliegues.
 Git y GitHub/GitLab: Control de versiones y manejo colaborativo del código.
+
+https://mvnrepository.com/

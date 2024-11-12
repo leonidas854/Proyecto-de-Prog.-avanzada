@@ -64,3 +64,14 @@ Tipo_Reporte: Tipo de reporte, como PDF o Excel. (String)
 Fecha_Generacion: Fecha en que se generó el reporte. (LocalDate)
 Ruta_Archivo: Ubicación del archivo del reporte en el sistema. (String)
 Descripcion: Descripción o resumen del contenido del reporte. (Text)
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {}
+public interface VehiculoRepository extends JpaRepository<Vehiculo, Long> {}
+public interface UbicacionRepository extends JpaRepository<Ubicacion, Long> {}
+public interface RutaRepository extends JpaRepository<Ruta, Long> {}
+public interface ItinerarioRepository extends JpaRepository<Itinerario, Long> {}
+public interface DemandaRepository extends JpaRepository<Demanda, Long> {}
+public interface ReporteRepository extends JpaRepository<Reporte, Long> {}
