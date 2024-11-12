@@ -65,6 +65,27 @@ Fecha_Generacion: Fecha en que se generó el reporte. (LocalDate)
 Ruta_Archivo: Ubicación del archivo del reporte en el sistema. (String)
 Descripcion: Descripción o resumen del contenido del reporte. (Text)
 
+//ideas tablas faltantes 
+Pedidos
+ID_pedido (PK): llave unica de la tabla. (Long)
+ID_cliente (FK): hace referencia a la relacion que tiene los clientes al realizar pedidos. (Int)
+Descr_pedido: información sobre cada pedido. (String)
+Cantidad_producto: Cantidad del producto que solicito el cliente. (String)
+Fecha_Entrega_Pedido: Fecha de Entrega del pedido al cliente que lo solicito. (DateTime)
+
+Clientes 
+ID_Cliente (PK) : Identificador único para cada cliente. (Long)
+Nombre : Nombre del cliente. (String)
+Contacto : Información de contacto (teléfono, correo electrónico). (String)
+Dirección : Dirección física del cliente. (String)
+
+Producto
+ID_Producto (PK) : Identificador único para cada producto. (Long)
+Nombre_Producto : Nombre descriptivo del producto. (String).
+Peso_Unitario : Peso unitario del producto, útil para el cálculo de carga en los vehículos. (Float)
+Fecha_Caducidad : Fecha de caducidad para productos perecederos. (DateTime)
+Precio_Unitario : Precio unitario del producto. (Float)
+Stock_Disponible : Cantidad disponible en inventario. (Int)
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
