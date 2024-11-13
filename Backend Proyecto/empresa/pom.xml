@@ -67,6 +67,7 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.jgrapht/jgrapht-core -->
 		<dependency>
    			<groupId>org.jgrapht</groupId>
