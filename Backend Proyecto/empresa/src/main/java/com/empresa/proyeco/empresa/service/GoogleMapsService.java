@@ -1,10 +1,11 @@
 package com.empresa.proyeco.empresa.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 @Service
 public class GoogleMapsService {
-    //@Value("${google.maps.api.key}")
+    @Value("${google.api.key}")
     private String apiKey;
 
     private final RestTemplate restTemplate;
