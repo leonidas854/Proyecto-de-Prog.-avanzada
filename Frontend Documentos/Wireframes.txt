@@ -1,0 +1,110 @@
+Rol: Administrador
+El administrador tiene acceso completo al sistema, incluida la configuración de rutas, registro de ubicaciones, gestión de vehículos, y monitoreo en tiempo real.
+
+1. Página de Registro de Ubicaciones
+Historia de Usuario: Como administrador, quiero ingresar las ubicaciones de los clientes y puntos de partida.
+Funcionalidades:
+Formulario para ingresar direcciones o coordenadas.
+Visualización de ubicaciones en un mapa interactivo.
+Wireframe:
+
+Formulario:
+Campos: Dirección/Coordenadas, Tipo (cliente o centro de distribución).
+Botón: "Agregar ubicación".
+Mapa interactivo:
+Marcadores para las ubicaciones ingresadas.
+Acciones:
+Guardar las ubicaciones en la base de datos.
+Mostrar errores si faltan datos.
+
+2. Página de Optimización de Rutas
+Historia de Usuario: Como administrador, quiero calcular rutas óptimas para las entregas.
+Funcionalidades:
+Seleccionar clientes y vehículos para optimizar las rutas.
+Visualización de rutas calculadas en un mapa.
+Información de distancia total, tiempo estimado y costos asociados.
+Wireframe:
+
+Formulario de selección:
+Lista de clientes y vehículos disponibles.
+Botón: "Calcular ruta".
+Mapa interactivo:
+Trazado de la ruta óptima con marcadores para paradas.
+Información adicional:
+Distancia total, tiempo estimado y costos (calculados usando la API de Google Maps).
+
+3. Página de Configuración de Vehículos
+Historia de Usuario: Como administrador, quiero registrar y actualizar información de vehículos.
+Funcionalidades:
+Registro de nuevos vehículos con capacidad, tipo y disponibilidad.
+Edición de información existente.
+Visualización de la lista de vehículos.
+Wireframe:
+
+Formulario de registro:
+Campos: Placa, Capacidad, Tipo, Estado.
+Botón: "Guardar".
+Tabla de vehículos:
+Lista de vehículos registrados con opciones para editar o eliminar.
+
+4. Página de Seguimiento en Tiempo Real
+Historia de Usuario: Como administrador, quiero monitorear el estado de entregas en tiempo real.
+Funcionalidades:
+Visualización de la ubicación de los vehículos en un mapa.
+Indicador de estado de cada entrega (en tránsito, completada).
+Panel de información con detalles de cada vehículo.
+Wireframe:
+
+Mapa interactivo:
+Iconos dinámicos para cada vehículo con su estado.
+Panel lateral:
+Información del vehículo: Conductor, estado, tiempo estimado.
+Acciones:
+Botón: "Actualizar en tiempo real".
+
+5. Página de Generación de Reportes
+Historia de Usuario: Como administrador, quiero generar reportes de rutas, entregas y estado de vehículos.
+Funcionalidades:
+Generar reportes en PDF o Excel.
+Seleccionar rango de fechas y tipos de reporte.
+Descargar reportes generados.
+Wireframe:
+
+Formulario de selección:
+Campos: Fecha inicial, Fecha final, Tipo de reporte.
+Botón: "Generar".
+Lista de reportes generados:
+Botón: "Descargar".
+
+
+
+
+Rol: Chofer
+El chofer tiene acceso limitado para visualizar sus rutas asignadas, itinerarios y reportar problemas durante el trayecto.
+
+1. Página de Itinerario de Rutas
+Historia de Usuario: Como chofer, quiero recibir un itinerario de entregas.
+Funcionalidades:
+Visualización del itinerario con las paradas asignadas.
+Información del cliente y ubicación.
+Botón para marcar como completada una parada.
+Wireframe:
+
+Lista de paradas:
+Campos: Cliente, Dirección, Hora estimada.
+Botón: "Marcar completada".
+Mapa interactivo:
+Ruta trazada con paradas marcadas.
+
+2. Página de Reporte de Incidencias
+Historia de Usuario: Como chofer, quiero reportar problemas durante el trayecto.
+Funcionalidades:
+Formulario para reportar problemas (como tráfico, bloqueos o fallos en el vehículo).
+Visualización del estado de envío del reporte.
+Wireframe:
+
+Formulario:
+Campos: Descripción del problema, ubicación.
+Botón: "Enviar".
+Estado del reporte:
+Indicador de éxito o error en el envío.
