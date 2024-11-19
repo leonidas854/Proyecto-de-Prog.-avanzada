@@ -69,7 +69,6 @@ Descripcion: Descripción o resumen del contenido del reporte. (Text)
 Pedidos
 ID_pedido (PK): llave unica de la tabla. (Long)
 ID_cliente (FK): hace referencia a la relacion que tiene los clientes al realizar pedidos. (Int)
-Descr_pedido: información sobre cada pedido. (String)
 Cantidad_producto: Cantidad del producto que solicito el cliente. (String)
 Fecha_Entrega_Pedido: Fecha de Entrega del pedido al cliente que lo solicito. (DateTime)
 
