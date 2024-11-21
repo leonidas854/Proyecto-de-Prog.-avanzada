@@ -27,7 +27,4 @@ public class RouteService {
     public double calcular_Distancia(String origen,String destino){
         return ciudadGrafo.getEdgeWeight(ciudadGrafo.getEdge(origen, destino));
     }
-
-
-
 }
