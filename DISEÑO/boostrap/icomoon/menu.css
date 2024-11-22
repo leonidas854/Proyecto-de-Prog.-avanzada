@@ -1,0 +1,115 @@
+*{
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:#fffffa;
+  color: black;
+  
+  font-weight: bold;
+}
+header{
+  width:100%;
+}
+header nav{
+  /* color Navegador de la barra de Navegación en si*/
+
+  width: 100%;
+  max-width: 5000px;
+  margin: auto;
+  background:#09423C;
+}
+.menu_bar{
+  display: none; 
+}
+header nav li.pu
+ {
+  width: 100%;
+  max-width: 88px;
+  margin: auto;
+  background:#00836B;
+}
+header nav li.ri
+ {
+  width: 100%;
+  max-width: 88px;
+  margin: auto;
+  background:#2C4653;
+}
+header nav li.mil
+ {
+  width: 100%;
+  max-width: 88px;
+  margin: auto;
+  background:#5D6E1E;
+}
+header nav li.nor
+ {
+  width: 100%;
+  max-width: 88px;
+  margin: auto;
+  background:#F24141;
+}
+
+
+
+header nav ul{
+  overflow:hidden;
+  list-style: none;
+
+}
+
+header nav ul li{
+  /* tipo de letra de la barra es decir: UMSS, UCATEC etc.*/
+color: #d5caaf;
+font-family: Komoda;
+text-align: center;
+float:left;
+}
+header nav ul li a{
+/* color de los íconos  */
+
+  color:#F0F0F0;
+  padding:25px;
+  display:block;
+  text-decoration:none;
+}
+
+header nav ul li span{
+  margin-right:15px;
+}
+header nav ul li a:hover{
+  /* Cambiar de color al efecto de elegir */
+ background:#D5CAAF;
+
+}
+
+section{
+  padding:40px;
+  color: black;
+
+}
+@media screen and (max-width: 800px){
+  header nav{
+    width:20%;
+    height: 100%;
+    
+    margin:0 ;
+    position: fixed;
+  }
+  header nav ul li{
+    display: block;
+    float: none;
+    border-bottom:1px solid rgba(255,255,255,.3);
+  }
+  
+ 
+  .menu_bar span{
+    float:right;
+    font-size:40px;
+  }
+}
+
+
+
