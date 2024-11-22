@@ -22,4 +22,17 @@ public class GoogleMapsService {
         return restTemplate.getForObject(url, String.class);
     }
 
+    public double calcularDistancia(String origen, String destino) {
+        String url = String.format(
+            "https://maps.googleapis.com/maps/api/distancematrix/json?origins=%s&destinations=%s&key=%s",
+            origen, destino, apiKey
+        );
+        String response = restTemplate.getForObject(url, String.class);
+        return extractDistanceFromResponse(response);
+    }
+
+    private double extractDistanceFromResponse(String response) {
+        return 0.0;
+    }
+
 }

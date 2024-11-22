@@ -32,8 +32,6 @@ public class Ubicacion {
     @Column(nullable = false,precision = 10, scale = 7)
     private BigDecimal longitud;
 
-    @Column(nullable = false)
-    private String tipo;
 
     @Column(nullable = false)
     @Builder.Default

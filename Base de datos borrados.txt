@@ -1,97 +1,112 @@
-Tablas Principales
-
-
 Usuarios
-ID_Usuario (PK): Identificador único para cada usuario. (Long)
-Nombre: Nombre del usuario. (String)
-Email: Correo electrónico único del usuario. (String, UNIQUE)
-Password_Hash: Contraseña en formato hash. (String)
-Rol: Rol del usuario en el sistema (por ejemplo, 'ADMIN', 'COORDINADOR', 'CONDUCTOR'). (String)
-Fecha_Creacion: Fecha de creación de la cuenta. (Timestamp)
+Campo	Descripción
+ID_Usuario (PK)	Identificador único del usuario. (Long)
+Nombre	Nombre del usuario. (String)
+Email	Correo electrónico único del usuario. (String, UNIQUE)
+Password_Hash	Contraseña del usuario en formato hash. (String)
+Contacto	Información de contacto del usuario, como teléfono. (String)
+Nombre	Nombre del rol (por ejemplo, 'Admin', 'Sucursal', 'Vehiculo'). (String)
+Fecha_Creacion	Fecha de creación de la cuenta del usuario. (Timestamp, DEFAULT CURRENT_TIMESTAMP)
 
+
+Clientes
+Campo	Descripción
+ID_Cliente (PK)	Identificador único del cliente. (Long)
+ID_Usuario (PK)	Relacion con la tabla usuarios:Identificador único del usuario. (Long)
+Nombre	Nombre del lugar. (String)
+Ventana_Tiempo	Ventana de tiempo asignada a la parada (por ejemplo, horario permitido de entrega)
+ID_Ubicacion (FK)	Relación con la tabla Ubicaciones para asociar la dirección del cliente. (Long)
 
 Vehículos
-ID_Vehiculo (PK): Identificador único para cada vehículo. (Long)
-Placa: Placa única del vehículo. (String, UNIQUE)
-Capacidad_Kg: Capacidad máxima de carga del vehículo en kilogramos. (Integer)
-Disponibilidad: Estado de disponibilidad del vehículo (por ejemplo, 'DISPONIBLE', 'EN_RUTA'). (Boolean)
-Fecha_Mantenimiento: Fecha del último mantenimiento del vehículo. (Date)
-Tipo_Vehiculo: Tipo de vehículo (por ejemplo, 'CAMION', 'FURGONETA'). (String)
+Campo	Descripción
+ID_Vehiculo (PK)	Identificador único del vehículo. (Long)
+Placa	Placa única del vehículo. (String, UNIQUE)
+Capacidad_Kg	Capacidad máxima de carga del vehículo en kilogramos. (Integer)
+ID_Sucursal (FK)	Relación con la tabla Sucursales para asociar el vehículo a una sucursal. (Long)
+Disponibilidad	Estado de disponibilidad del vehículo ('Disponible', 'En_Ruta', 'En_Mantenimiento'). (ENUM)
+Fecha_Mantenimiento	Fecha del último mantenimiento realizado al vehículo. (Date)
+Tipo_Vehiculo Descripción del tipo de vehículo (por ejemplo, 'Camión', 'Furgoneta'). (String)
+
+
+Sucursales
+Campo	Descripción
+ID_Sucursal (PK)	Identificador único de la sucursal. (Long)
+ID_Usuario (PK)	Relacion con la tabla usuarios:Identificador único del usuario. (Long)
+Nombre	Nombre de la sucursal. (String)
+ID_Ubicacion (FK)	Relación con la tabla Ubicaciones para identificar la ubicación de la sucursal. (Long)
 
 
 Ubicaciones
-ID_Ubicacion (PK): Identificador único para cada ubicación. (Long)
-Nombre: Nombre de la ubicación, como cliente o centro de distribución. (String)
-Latitud: Latitud de la ubicación. (BigDecimal)
-Longitud: Longitud de la ubicación. (BigDecimal)
-Tipo: Tipo de ubicación, ya sea cliente o centro de distribución (por ejemplo, 'CLIENTE', 'DISTRIBUCION'). (String)
-Fecha_Registro: Fecha en que se registró la ubicación. (Date)
-
+Campo	Descripción
+ID_Ubicacion (PK)	Identificador único de la ubicación. (Long)
+Nombre	Nombre de la ubicación, como cliente o centro de distribución. (String)
+Latitud	Latitud de la ubicación. (Decimal)
+Longitud	Longitud de la ubicación. (Decimal)
+Tipo	Tipo de la ubicación ('Cliente', 'Centro_Distribucion'). (ENUM)
+Fecha_Registro	Fecha en que se registró la ubicación. (Date)
 
 Rutas
-ID_Ruta (PK): Identificador único para cada ruta. (Long)
-ID_Vehiculo (FK): Identificador del vehículo asignado a la ruta. (Long, FOREIGN KEY hacia Vehiculos)
-Fecha: Fecha en que se realiza la ruta. (LocalDate)
-Distancia_Total: Distancia total de la ruta en kilómetros. (BigDecimal)
-Tiempo_Total: Tiempo total estimado para completar la ruta en minutos. (Integer)
-Costo: Costo asociado a la ruta (por ejemplo, costo por km). (BigDecimal)
-Estado: Estado de la ruta (por ejemplo, 'PLANIFICADA', 'COMPLETADA', 'CANCELADA'). (String)
+Campo	Descripción
+ID_Ruta (PK)	Identificador único de la ruta. (Long)
+ID_Vehiculo (FK)	Relación con la tabla Vehículos para asignar un vehículo a la ruta. (Long)
+Fecha	Fecha en que se realiza la ruta. (Date)
+Distancia_Total	Distancia total de la ruta en kilómetros. (Decimal)
+Tiempo_Total	Tiempo total estimado para completar la ruta en minutos. (Decimal)
+Costo	Costo asociado a la ruta. (Decimal)
+Hora_Llegada_Estimada	Hora estimada de llegada a la parada. (Time)
+Hora_Salida_Estimada	Hora estimada de salida de la parada. (Time)
+Estado	Estado de la ruta ('Planificada', 'Completada', 'Cancelada'). (ENUM)
+
+Pedidos
+Campo	Descripción
+ID_Pedido (PK)	Identificador único del pedido. (Long)
+ID_Cliente (FK)	Relación con la tabla Clientes para identificar al cliente que realizó el pedido. (Long)
+Fecha_Pedido	Fecha en que se realizó el pedido. (Timestamp, DEFAULT CURRENT_TIMESTAMP)
+Fecha_Entrega	Fecha estimada o real de entrega del pedido. (Timestamp)
+Estado	Estado del pedido ('Pendiente', 'En_Proceso', 'Entregado', 'Cancelado'). (ENUM)
+Total_Pedido	Total monetario del pedido. (Decimal)
 
 
 Itinerarios
-ID_Itinerario (PK): Identificador único para cada itinerario. (Long)
-ID_Ruta (FK): Relación con la tabla de Rutas para asociar el itinerario. (Long, FOREIGN KEY hacia Rutas)
-ID_Ubicacion (FK): Relación con la tabla de Ubicaciones para cada punto de la ruta. (Long, FOREIGN KEY hacia Ubicaciones)
-Orden: Orden de parada dentro de la ruta. (Integer)
-Hora_Llegada_Estimada: Hora estimada de llegada a la ubicación. (Time)
-Hora_Salida_Estimada: Hora estimada de salida de la ubicación. (Time)
-
+Campo	Descripción
+ID_Itinerario (PK)	Identificador único del itinerario. (Long)
+ID_Ruta (FK)	Relación con la ruta correspondiente. (Long)
+ID_Ubicacion (FK)	Relación con la tabla Ubicaciones de la ruta. (Long)
+Orden	Orden de las paradas en la ruta. (Integer)
+Estado	Estado de la parada ('Pendiente', 'Completada', 'Cancelada'). (ENUM)
 
 Demandas
-ID_Demanda (PK): Identificador único para cada registro de demanda. (Long)
-Fecha: Fecha de registro de la demanda. (LocalDate)
-Demanda_Proyectada: Valor proyectado de demanda para el período de tiempo. (BigDecimal)
-Parametros_Utilizados: Descripción de los parámetros utilizados para la proyección. (String)
-Cantidad: Cantidad de producto o carga solicitada. (Integer)
-ID_Ubicacion_Origen (FK): Identificador de la ubicación de origen. (Long, FOREIGN KEY hacia Ubicaciones)
-ID_Ubicacion_Destino (FK): Identificador de la ubicación de destino. (Long, FOREIGN KEY hacia Ubicaciones)
+Campo	Descripción
+ID_Demanda (PK)	Identificador único de la demanda. (Long)
+Cantidad	Cantidad de producto o carga solicitada. (Integer)
+id_clientes:Identificador único del cliente.
+
+Oferta 
+Campo	Descripción
+ID_Oferta (PK)	Identificador único de la demanda. (Long)
+Cantidad	Cantidad de producto o carga solicitada. (Integer)
+id_Sucursales: Identificador único de la sucursal.
+
+Reporte
+Campo	Descripción
+ID_Reporte (PK)	Identificador único del reporte. (Long)
+Nombre_Reporte	Nombre descriptivo del reporte (por ejemplo, "Reporte de Demanda", "Reporte de Rutas"). (String)
+Fecha_Generacion	Fecha en que se generó el reporte. (Date)
+Tipo_Reporte	Tipo del reporte ('Demanda', 'Rutas'). (ENUM)
+Descripcion	Descripción breve del contenido del reporte. (Text)
+
+Tabla para Detalles de Reportes de Demanda
+Campo	Descripción
+ID_Reporte (FK)	Relación con la tabla Reportes. Identificador del reporte al que pertenece este detalle. (Long)
+ID_Demanda (FK)	Relación con la tabla Demandas. Identificador de la demanda incluida en el reporte. (Long)
+Periodo	Período de tiempo asociado a la proyección (por ejemplo, "Noviembre 2024"). (String)
+
+Tabla para Detalles de Reportes de Rutas
+Campo	Descripción
+ID_Reporte (FK)	Relación con la tabla Reportes. Identificador del reporte al que pertenece este detalle. (Long)
+ID_Ruta (FK)	Relación con la tabla Rutas. Identificador de la ruta incluida en el reporte. (Long)
+Entregas_Tardias	Número de entregas realizadas fuera del tiempo estimado. (Integer)
 
 
-Reportes
-ID_Reporte (PK): Identificador único para cada reporte generado. (Long)
-Nombre_Reporte: Nombre descriptivo del reporte. (String)
-Tipo_Reporte: Tipo de reporte, como PDF o Excel. (String)
-Fecha_Generacion: Fecha en que se generó el reporte. (LocalDate)
-Ruta_Archivo: Ubicación del archivo del reporte en el sistema. (String)
-Descripcion: Descripción o resumen del contenido del reporte. (Text)
 
-//ideas tablas faltantes 
-Pedidos
-ID_pedido (PK): llave unica de la tabla. (Long)
-ID_cliente (FK): hace referencia a la relacion que tiene los clientes al realizar pedidos. (Int)
-Cantidad_producto: Cantidad del producto que solicito el cliente. (String)
-Fecha_Entrega_Pedido: Fecha de Entrega del pedido al cliente que lo solicito. (DateTime)
 
-Clientes 
-ID_Cliente (PK) : Identificador único para cada cliente. (Long)
-Nombre : Nombre del cliente. (String)
-Contacto : Información de contacto (teléfono, correo electrónico). (String)
-Dirección : Dirección física del cliente. (String)
-
-Producto
-ID_Producto (PK) : Identificador único para cada producto. (Long)
-Nombre_Producto : Nombre descriptivo del producto. (String).
-Peso_Unitario : Peso unitario del producto, útil para el cálculo de carga en los vehículos. (Float)
-Fecha_Caducidad : Fecha de caducidad para productos perecederos. (DateTime)
-Precio_Unitario : Precio unitario del producto. (Float)
-Stock_Disponible : Cantidad disponible en inventario. (Int)
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {}
-public interface VehiculoRepository extends JpaRepository<Vehiculo, Long> {}
-public interface UbicacionRepository extends JpaRepository<Ubicacion, Long> {}
-public interface RutaRepository extends JpaRepository<Ruta, Long> {}
-public interface ItinerarioRepository extends JpaRepository<Itinerario, Long> {}
-public interface DemandaRepository extends JpaRepository<Demanda, Long> {}
-public interface ReporteRepository extends JpaRepository<Reporte, Long> {}

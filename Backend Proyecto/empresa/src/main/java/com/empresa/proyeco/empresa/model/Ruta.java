@@ -24,10 +24,10 @@ import java.time.LocalDate;
 public class Ruta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idRuta;
 
     @ManyToOne
-    @JoinColumn(name = "id_vehiculo",nullable = false)
+    @JoinColumn(name = "id_vehiculo", nullable = false)
     private Vehiculo vehiculo;
 
     @Column(nullable = false)
@@ -36,12 +36,15 @@ public class Ruta {
     @Column(precision = 10, scale = 2)
     private BigDecimal distanciaTotal;
 
-    private Integer tiempoTotal;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal tiempoTotal;
 
     @Column(precision = 10, scale = 2)
     private BigDecimal costo;
 
-    @Column(nullable = false)
+    
+
+    @Column(nullable = false, length = 20)
     private String estado;
 
 

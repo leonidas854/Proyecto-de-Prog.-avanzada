@@ -20,8 +20,9 @@ public class Reporte {
     @Column(nullable = false)
     private String nombreReporte;
 
-    @Column(nullable = false)
-    private String tipoReporte;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private TipoReporte tipoReporte;
 
     @Column(nullable = false)
     private LocalDate fechaGeneracion;

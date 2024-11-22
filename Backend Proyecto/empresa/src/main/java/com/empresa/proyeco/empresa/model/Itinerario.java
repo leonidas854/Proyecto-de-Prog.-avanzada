@@ -15,21 +15,26 @@ import jakarta.persistence.*;
 public class Itinerario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idItinerario;
 
     @ManyToOne
-    @JoinColumn(name = "ruta_id", nullable = false)
+    @JoinColumn(name = "id_ruta", nullable = false)
     private Ruta ruta;
 
     @ManyToOne
-    @JoinColumn(name = "ubicacion_id", nullable = false)
+    @JoinColumn(name = "id_ubicacion", nullable = false)
     private Ubicacion ubicacion;
 
     @Column(nullable = false)
     private Integer orden;
 
+    @Column(nullable = false, length = 20)
+    private String estado;
+
+    @Column
     private LocalTime horaLlegadaEstimada;
 
+    @Column
     private LocalTime horaSalidaEstimada;
 
 }
