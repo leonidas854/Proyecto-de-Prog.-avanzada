@@ -1,12 +1,44 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>GENERAR REPORTE</title>
-        <meta charset="utf-8"  name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0, 
-        maximum-scale=1.0, minimun-scale=1.0">
-        <link rel="stylesheet" href="Estilo.css">
-        <link rel="icon" type="text/css" href="img/frm.png">
-    </head>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Ruta</title>
+    <link rel="stylesheet" href="EstiloGenerarRuta.css">
+</head>
 <body>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <img src="img/cambioRap.jpg" alt="Icono Izquierdo" class="icono">
+        </div>
+
+        <!-- Espacio para los contenidos de la barra -->
+        <div class="navbar-center">
+            <span>ADMINISTRADOR</span>
+        </div>
+
+        <!-- Icono derecho y "ADMINISTRADOR" -->
+        <div class="navbar-right">
+            <img src="img/iconlogi.jpg" alt="Icono Derecho" class="icono">
+        </div>
+    </nav>
+
+    <!-- Formulario Generar Ruta -->
+    <div class="form-container">
+        <h2>GENERAR REPORTE</h2>
+        <form action="#" method="post">
+            <label for="origen">Semana del reporte</label>
+            <select id="origen" name="origen">
+                <option value="sucursal1">Sem 1</option>
+                <option value="sucursal2">Sem 2</option>
+                <option value="sucursal3">Sem 3</option>
+            </select>
+
+            <button type="submit">Generar Ruta</button>
+        </form>
+    </div>
+
+</body>
 </html>

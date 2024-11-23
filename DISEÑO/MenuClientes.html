@@ -1,39 +1,43 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>SECCIÓN CLIENTE</title>
-        <meta charset="utf-8"  name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0, 
-        maximum-scale=1.0, minimun-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-        <link rel="icon" type="text/css" href="img/iconocc.jpg">
-    </head>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de Clientes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
-    <div class="card">
-        <div class="face front">
-            <img src="img/11.jpg">
-            <h3>NUEVO CLIENTE</h3>
+    <h1>SECCIÓN CLIENTES</h1>
+    <div class="cards-container">
+        <!-- Tarjeta de Nuevo Cliente -->
+        <div class="card">
+            <div class="face front">
+                <img src="img/cliente_nuevo.jpg" alt="Nuevo Cliente"><!--agregar imagen nata-->
+                <h3>NUEVO CLIENTE</h3>
+            </div>
+            <div class="face back">
+                <h3>NUEVO CLIENTE</h3>
+                <p>Regístrate como cliente nuevo y aprovecha todos los beneficios disponibles.</p>
+                <div class="link">
+                    <a href="FrmCliente.html">Ir al formulario</a>
+                </div>
+            </div>
         </div>
-        <div class="face back">
-            <h3>NUEVO CLIENTE</h3>
-            <p>Chao _texto<br><a href="FrmCliente.html">Página web</a><br>
+
+        <!-- Tarjeta de Cliente Anterior -->
+        <div class="card">
+            <div class="face front">
+                <img src="img/cliente_antiguo.jpg" alt="Cliente Anterior"><!--agregar imagen nata-->
+                <h3>CLIENTE ANTERIOR</h3>
+            </div>
+            <div class="face back">
+                <h3>CLIENTE ANTERIOR</h3>
+                <p>Consulta tus datos y accede a tu cuenta como cliente registrado.</p>
+                <div class="link">
+                    <a href="LoginCliente.html">Iniciar sesión</a>
+                </div>
             </div>
         </div>
     </div>
-
-
-    <div class="card">
-        <div class="face front">
-            <img src="img/11.jpg">
-            <h3>CLIENTE ANTERIOR</h3>
-        </div>
-        <div class="face back">
-            <h3>CLIENTE ANTERIOR</h3>
-            <p>Chao _texto<br><a href="LoginCliente.html">Página web</a><br>
-            </div>
-        </div>
-    </div>
-    
-    <script  src="boostrap/js/menu.js"></script>
 </body>
 </html>

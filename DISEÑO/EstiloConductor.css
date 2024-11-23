@@ -1,0 +1,97 @@
+/* Contenedor principal */
+.conductor-form {
+    display: flex;
+    flex-direction: column; /* Organización vertical */
+    margin: 20px;
+    gap: 20px; /* Espaciado entre las filas */
+}
+
+/* Contenedor de los cuadros 1 y 2 */
+.cuadros-superiores {
+    display: flex;
+    justify-content: space-between; /* Alinea horizontalmente los cuadros */
+    gap: 20px; /* Espaciado entre los cuadros */
+}
+
+/* Estilo para los cuadros */
+.form-cuadro {
+    width: 45%; /* Cada cuadro ocupará el 45% del ancho del contenedor superior */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+/* Estilo para el cuadro inferior */
+.cuadro-inferior {
+    width: 100%; /* Ocupa todo el ancho del contenedor principal */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+.datagrid-container {
+    width: 100%;
+    padding: 20px;
+    margin-top: 30px; /* Espacio entre formulario y tabla */
+    background-color: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.datagrid-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.datagrid-container table, th, td {
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.datagrid-container th, td {
+    padding: 10px;
+}
+
+.datagrid-container th {
+    background-color: #f4f4f4;
+}
+
+.datagrid-container td {
+    background-color: #fafafa;
+}

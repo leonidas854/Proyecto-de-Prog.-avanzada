@@ -45,6 +45,6 @@ header {
     background-repeat: no-repeat; 
     background-position: center; 
     background-size: cover; /* Ajusta la imagen para que cubra el contenedor */
-    height: 300px; /* Ajusta la altura según tus necesidades */
+    height: 100px; /* Ajusta la altura según tus necesidades */
     width: 100%; /* Ajusta el ancho según tus necesidades */
 }

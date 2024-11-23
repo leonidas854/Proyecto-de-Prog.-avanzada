@@ -1,12 +1,33 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>REGISTRO CLIENTE</title>
-        <meta charset="utf-8"  name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0, 
-        maximum-scale=1.0, minimun-scale=1.0">
-        <link rel="stylesheet" href="Estilo.css">
-        <link rel="icon" type="text/css" href="img/frm.png">
-    </head>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REGISTRO CLIENTE</title>
+    <link rel="stylesheet" href="ClienteEstilo.css">
+    <link rel="icon" type="image/png" href="img/frm.png">
+</head>
 <body>
+    <div class="form-container">
+        <h1>REGISTRO CLIENTE</h1>
+        <form action="PedidoCliente.html" method="post">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="contacto">Contacto:</label>
+            <input type="text" id="contacto" name="contacto" required>
+
+            <label for="ubicacion">Ubicación:</label>
+            <div class="ubicacion">
+                <input type="text" id="latitud" name="latitud" placeholder="Latitud" required>
+                <input type="text" id="longitud" name="longitud" placeholder="Longitud" required>
+            </div>
+
+            <label for="contraseña">Contraseña:</label>
+            <input type="password" id="contraseña" name="contraseña" required>
+
+            <button type="submit">Registrarse</button>
+        </form>
+    </div>
+</body>
 </html>

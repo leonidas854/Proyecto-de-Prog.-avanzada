@@ -1,11 +1,64 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>SECCIÓN CONDUCTOR</title>
-        <meta charset="utf-8"  name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0, 
-        maximum-scale=1.0, minimun-scale=1.0">
-        <link rel="icon" type="text/css" href="img/iconocc.jpg">
-    </head>
-</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sección Conductor</title>
+    <link rel="stylesheet" href="EstiloConductor.css">
+</head>
+<body>
+    <div class="conductor-form">
+        <div class="cuadros-superiores">
+            <div class="form-cuadro">
+                <h3>ITINERARIO</h3>
+                <label for="cliente">Cliente</label>
+                <input type="text" id="cliente" name="cliente">
+
+                <label for="fecha">Fecha</label>
+                <input type="date" id="fecha" name="fecha">
+
+                <label for="destino">Destino del cliente</label>
+                <input type="text" id="destino" name="destino">
+
+                <label for="horaLlegada">Hora de llegada estimada</label>
+                <input type="time" id="horaLlegada" name="horaLlegada">
+
+                <label for="numeroPedido">N° de pedido</label>
+                <input type="text" id="numeroPedido" name="numeroPedido">
+
+                <label for="origen">Origen</label>
+                <input type="text" id="origen" name="origen">
+
+                <label for="orden">Orden</label>
+                <input type="text" id="orden" name="orden">
+
+                <label for="horaSalida">Hora de salida estimada</label>
+                <input type="time" id="horaSalida" name="horaSalida">
+
+                <button type="submit">Ver ruta</button>
+            </div>
+
+            <div class="form-cuadro">
+                <h3>CAPTURA DE LA RUTA??????</h3>
+                
+            </div>
+        </div>
+
+        <div class="datagrid-container">
+            <h3>Vehículos Registrados</h3>
+            <table id="dataGridView">
+                <thead>
+                    <tr>
+                        <th>Placa</th>
+                        <th>Dispositivo</th>
+                        <th>Capacidad</th>
+                        <th>Tipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
 </html>

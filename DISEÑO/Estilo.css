@@ -48,3 +48,27 @@ header {
     height: 300px; /* Ajusta la altura según tus necesidades */
     width: 100%; /* Ajusta el ancho según tus necesidades */
 }
+.contenido {
+    padding: 20px;
+    text-align: center;
+    margin-top: 100px; /* Evitar que el contenido quede bajo el header fijo */
+}
+
+.texto-imagen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.texto-imagen img {
+    width: 200px;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 5px;
+}
+
+.texto-imagen p {
+    max-width: 600px;
+    text-align: justify;
+}
