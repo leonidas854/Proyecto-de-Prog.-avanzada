@@ -1,0 +1,12 @@
+        Pkm = Pdiesel/Rkm/l
+        
+        DONDE:
+     Pdiesel= 3.72Bs/Litro                          Pkm= 3.72/12 = 0.31Bs/km        
+     Ekm/L= 12km/litro
+ 
+
+Para obtener el precio/kilómetro debemos conocer el precio del diésel que es de 3,72bs/litro y debemos conocer que el rendimiento promedio es de 12km/litro, al conocer esos datos tenemos en nuestra ecuacion que el precio de bs/km es de 0,31bs/km  
+
+
+
+                                      
