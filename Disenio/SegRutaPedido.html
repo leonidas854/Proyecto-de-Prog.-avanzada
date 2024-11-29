@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguir Ruta</title>
+    <link rel="stylesheet" href="assets/css/EstiloSeguirRuta.css">
+</head>
+<body>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <img src="assets/images/cambioRap.jpg" alt="Icono Izquierdo" class="icono">
+        </div>
+
+        <div class="navbar-center">
+            <span>ADMINISTRADOR</span>
+        </div>
+
+        <div class="navbar-right">
+            <img src="assets/images/iconlogi.jpg" alt="Icono Derecho" class="icono">
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Seguimiento del Vehículo</h1>
+        <div class="combo-box">
+            <label for="vehiculo">Vehículo:</label>
+            <select id="vehiculo">
+                <option value="">Seleccione</option>
+                <option value="1">Vehículo 1</option>
+                <option value="2">Vehículo 2</option>
+            </select>
+        </div>
+
+        <div class="main-box">
+            <div class="panel-box">
+                <h2>Panel</h2>
+                <div class="info-item">
+                    <label for="conductor">Conductor:</label>
+                    <input type="text" id="distancia" name="distancia" readonly>
+                </div>
+                <div class="info-item">
+                    <label for="estado">Estado:</label>
+                    <input type="text" id="distancia" name="distancia" readonly>
+                </div>
+                <div class="info-item">
+                    <label for="tiempo">Tiempo Estimado:</label>
+                    <input type="text" id="distancia" name="distancia" readonly>
+                </div>
+            </div>
+
+            <div class="realtime-box">
+                <h2>Seguimiento en Tiempo Real</h2>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn">Actualizar en Tiempo Real</button>
+            <button class="btn">Recalcular Ruta</button>
+        </div>
+    </div>
+
+</body>
+</html>

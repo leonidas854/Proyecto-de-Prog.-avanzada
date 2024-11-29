@@ -21,6 +21,7 @@ public class Demanda {
     private Integer cantidad;
 
     @ManyToOne
-    @JoinColumn(name = "id_cliente", nullable = false)
-    private Clientes cliente;
+    //demanda inicial
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
 }

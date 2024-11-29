@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEDIDO CLIENTE</title>
+    <link rel="stylesheet" href="assets/css/ClienteEstilo.css">
+</head>
+<body>
+    <div class="pedido-container">
+        <div class="pedido-box">
+            <h1>REALIZAR PEDIDO</h1>
+            <form action="procesarPedido.html" method="post">
+                <label for="cliente">Cliente:</label>
+                <input type="text" id="cliente" name="cliente" required>
+
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" name="cantidad" required>
+
+                <label for="fechaEntrega">Fecha de Entrega:</label>
+                <input type="date" id="fechaEntrega" name="fechaEntrega" required>
+
+                <button type="submit">Realizar Pedido</button>
+            </form>
+        </div>
+        <div class="datagrid">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID_PEDIDO</th>
+                        <th>CLIENTE</th>
+                        <th>CANTIDAD</th>
+                        <th>FECHA</th>
+                        <th>ESTADO</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

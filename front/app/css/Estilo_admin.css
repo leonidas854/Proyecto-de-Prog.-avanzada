@@ -1,0 +1,48 @@
+.admin-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image: url('/image/f2.png'); /* Fondo exclusivo */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  /* Navbar */
+  .navbar {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  .navbar ul li {
+    margin: 0 15px;
+  }
+  
+  .navbar ul li .link-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .navbar ul li .link-button:hover {
+    color: #e21e26;
+  }
+  
+  .contenido {
+    margin-top: 100px;
+    text-align: center;
+    padding: 20px;
+  }
+  

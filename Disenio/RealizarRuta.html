@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realizar Ruta</title>
+    <link rel="stylesheet" href="assets/css/EstiloRealizarRuta.css">
+</head>
+<body>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <img src="assets/images/cambioRap.jpg" alt="Icono Izquierdo" class="icono">
+        </div>
+
+        <div class="navbar-center">
+            <span>ADMINISTRADOR</span>
+        </div>
+
+        <div class="navbar-right">
+            <img src="assets/images/iconlogi.jpg" alt="Icono Derecho" class="icono">
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <h2>Realizar Ruta</h2>
+        <form action="#" method="post">
+            <label for="sucursal">Sucursal de Origen</label>
+            <select id="sucursal" name="sucursal">
+                <option value="sucursal1">Sucursal 1</option>
+                <option value="sucursal2">Sucursal 2</option>
+                <option value="sucursal3">Sucursal 3</option>
+            </select>
+
+            <label for="pedido">Pedido a Cumplir</label>
+            <select id="pedido" name="pedido">
+                <option value="pedido1">Pedido 1</option>
+                <option value="pedido2">Pedido 2</option>
+                <option value="pedido3">Pedido 3</option>
+            </select>
+
+            <label for="vehiculo">Vehículos Disponibles (Placa)</label>
+            <select id="vehiculo" name="vehiculo">
+                <option value="vehiculo1">Vehículo 1</option>
+                <option value="vehiculo2">Vehículo 2</option>
+                <option value="vehiculo3">Vehículo 3</option>
+            </select>
+
+            <button type="submit">Calcular Ruta</button>
+            <button type="button">Designar Ruta</button>
+        </form>
+
+        <!-- Cuadros de estimación -->
+        <div class="ruta-estimada">
+            <label for="distancia">Distancia Estimada</label>
+            <input type="text" id="distancia" name="distancia" readonly>
+
+            <label for="tiempo">Tiempo Estimado</label>
+            <input type="text" id="tiempo" name="tiempo" readonly>
+
+            <label for="costo">Costo de Recorrido</label>
+            <input type="text" id="costo" name="costo" readonly>
+        </div>
+    </div>
+
+</body>
+</html>

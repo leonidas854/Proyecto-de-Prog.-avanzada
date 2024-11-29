@@ -1,6 +1,7 @@
 package com.empresa.proyeco.empresa.model;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,12 @@ public class Usuario {
 
     @Column(nullable = false)
     private Integer contacto;
+    
+    @Column(nullable = false,precision = 10, scale = 7)
+    private BigDecimal latitud;
+
+    @Column(nullable = false,precision = 10, scale = 7)
+    private BigDecimal longitud;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

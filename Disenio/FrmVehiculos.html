@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Vehículo</title>
+    <link rel="stylesheet" href="assets/css/EstiloVehiculos.css">
+</head>
+<body>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <img src="assets/images/cambioRap.jpg" alt="Icono Izquierdo" class="icono">
+        </div>
+
+        <div class="navbar-center">
+            <span>ADMINISTRADOR</span>
+        </div>
+
+        <div class="navbar-right">
+            <img src="assets/images/iconlogi.jpg" alt="Icono Derecho" class="icono">
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <h2>FORMULARIO DE REGISTRO</h2>
+        <form action="#" method="post">
+            <label for="placa">Placa</label>
+            <input type="text" id="placa" name="placa" placeholder="Ingresa la placa" required>
+
+            <label for="dispositivo">Dispositivo Móvil</label>
+            <input type="text" id="dispositivo" name="dispositivo" placeholder="Ingresa el dispositivo móvil" required>
+
+            <label for="capacidad">Capacidad</label>
+            <input type="text" id="capacidad" name="capacidad" placeholder="Ingresa la capacidad" required>
+
+            <label for="tipo">Tipo</label>
+            <input type="text" id="tipo" name="tipo" placeholder="Ingresa el tipo de vehículo" required>
+
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
+    <!-- DataGridView -->
+    <div class="datagrid-container">
+        <h3>Vehículos Registrados</h3>
+        <table id="dataGridView">
+            <thead>
+                <tr>
+                    <th>Placa</th>
+                    <th>Dispositivo</th>
+                    <th>Capacidad</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

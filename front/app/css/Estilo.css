@@ -1,0 +1,77 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro con transparencia */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar ul li {
+    margin: 0 15px;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.navbar ul li a:hover {
+    color: #E21E26;
+}
+
+.contenedor-imagen {
+    background-image: url('/image/coqui.png');
+    background-repeat: no-repeat; 
+    background-position: center; 
+    background-size: cover; /* Ajusta la imagen para que cubra el contenedor */
+    height: 300px; /* Ajusta la altura según tus necesidades */
+    width: 100%; /* Ajusta el ancho según tus necesidades */
+}
+.contenido {
+    padding: 20px;
+    text-align: center;
+    margin-top: 350px; /* Ajusta según la altura del header y la imagen de fondo */
+}
+
+
+.texto-imagen {
+    display: flex;
+    flex-direction: column; /* Cambia la dirección a columna */
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px; /* Más espacio entre bloques */
+}
+
+.texto-imagen img {
+    width: 200px; /* Mantén el tamaño consistente */
+    height: auto;
+    margin-bottom: 20px; /* Espacio debajo de cada imagen */
+    border-radius: 5px;
+}
+
+.texto-imagen p {
+    max-width: 600px;
+    text-align: justify;
+    margin-top: 10px; /* Espacio entre la imagen y el texto */
+}

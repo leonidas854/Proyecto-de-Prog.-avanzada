@@ -2,8 +2,8 @@ import java.util.Arrays;
 
 public class MetodoVogel {
 
-    private static int[][] asignaciones; // Para guardar las asignaciones
-    private static int costoTotal; // Para almacenar el costo total
+    private static int[][] asignaciones; 
+    private static int costoTotal; 
 
     public static void resolverMetodoVogel(int[] oferta, int[] demanda, int[][] costos) {
         // Balancear oferta y demanda
@@ -15,21 +15,21 @@ public class MetodoVogel {
         int numFilas = oferta.length;
         int numColumnas = demanda.length;
         asignaciones = new int[numFilas][numColumnas];
-        for (int[] fila : asignaciones) Arrays.fill(fila, 0); // Inicializar asignaciones
+        for (int[] fila : asignaciones) Arrays.fill(fila, 0);
 
         costoTotal = 0;
 
         while (true) {
-            // Calcular las multas por filas y columnas
+            
             int[] multaFilas = calcularMulta(costos, true, oferta, demanda);
             int[] multaColumnas = calcularMulta(costos, false, oferta, demanda);
 
-            // Determinar la mayor multa
+            
             int maxMulta = Integer.MIN_VALUE;
             int indiceFila = -1, indiceColumna = -1;
             boolean esFila = true;
 
-            // Buscar la mayor multa entre filas
+            
             for (int i = 0; i < numFilas; i++) {
                 if (oferta[i] > 0 && multaFilas[i] > maxMulta) {
                     maxMulta = multaFilas[i];
@@ -38,7 +38,7 @@ public class MetodoVogel {
                 }
             }
 
-            // Buscar la mayor multa entre columnas
+            
             for (int j = 0; j < numColumnas; j++) {
                 if (demanda[j] > 0 && multaColumnas[j] > maxMulta) {
                     maxMulta = multaColumnas[j];
@@ -47,7 +47,7 @@ public class MetodoVogel {
                 }
             }
 
-            // Determinar la celda con menor costo
+            
             if (esFila) {
                 indiceColumna = encontrarIndiceCostoMinimo(costos[indiceFila], demanda);
             } else {
@@ -55,7 +55,7 @@ public class MetodoVogel {
                 indiceFila = encontrarIndiceCostoMinimo(Arrays.stream(costos).mapToInt(c -> c[index]).toArray(), oferta);
             }
 
-            // Asignar la menor cantidad entre oferta y demanda
+           
             int cantidad = Math.min(oferta[indiceFila], demanda[indiceColumna]);
             asignaciones[indiceFila][indiceColumna] = cantidad;
             costoTotal += cantidad * costos[indiceFila][indiceColumna];

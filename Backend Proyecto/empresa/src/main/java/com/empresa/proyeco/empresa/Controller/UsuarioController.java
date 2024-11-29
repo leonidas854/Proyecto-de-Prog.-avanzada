@@ -1,56 +1,97 @@
 package com.empresa.proyeco.empresa.Controller;
 
+import com.empresa.proyeco.empresa.DTO.UsuarioDTO;
 import com.empresa.proyeco.empresa.model.*;
 import com.empresa.proyeco.empresa.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
+
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    // Obtener todos los usuarios como DTO
     @GetMapping
-    public List<Usuario> getUsuarios() {
-        return usuarioRepository.findAll();
+    public List<UsuarioDTO> getUsuarios() {
+        return usuarioRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
+    // Obtener un usuario por ID como DTO
     @GetMapping("/{id}")
-    public Usuario getUsuario(@PathVariable Long id) {
-        return usuarioRepository.findById(id)
+    public UsuarioDTO getUsuario(@PathVariable Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No se encontró el usuario con id: " + id));
+        return convertToDTO(usuario);
     }
 
+    // Crear un nuevo usuario a partir de un DTO
     @PostMapping
-    public Usuario createUsuario(@RequestBody Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public UsuarioDTO createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+        Usuario usuario = convertToEntity(usuarioDTO);
+        Usuario savedUsuario = usuarioRepository.save(usuario);
+        return convertToDTO(savedUsuario);
     }
 
-
+    // Actualizar un usuario existente
     @PutMapping("/{id}")
-    public Usuario updateUsuario(@PathVariable Long id, @RequestBody Usuario detallesUsuario) {
+    public UsuarioDTO updateUsuario(@PathVariable Long id, @RequestBody UsuarioDTO detallesUsuarioDTO) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No se encontró el usuario con id: " + id));
 
-        usuario.setNombre(detallesUsuario.getNombre());
-        usuario.setEmail(detallesUsuario.getEmail());
-        usuario.setPassword(detallesUsuario.getPassword());
-        usuario.setContacto(detallesUsuario.getContacto());
-        usuario.setTipoUsuario(detallesUsuario.getTipoUsuario());
+        usuario.setNombre(detallesUsuarioDTO.getNombre());
+        usuario.setEmail(detallesUsuarioDTO.getEmail());
+        usuario.setPassword(detallesUsuarioDTO.getPassword());
+        usuario.setContacto(detallesUsuarioDTO.getContacto());
+        usuario.setLatitud(detallesUsuarioDTO.getLatitud());
+        usuario.setLongitud(detallesUsuarioDTO.getLongitud());
+        usuario.setTipoUsuario(detallesUsuarioDTO.getTipoUsuario());
 
-        return usuarioRepository.save(usuario);
+        Usuario updatedUsuario = usuarioRepository.save(usuario);
+        return convertToDTO(updatedUsuario);
     }
 
+    // Eliminar un usuario
     @DeleteMapping("/{id}")
     public String deleteUsuario(@PathVariable Long id) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No se encontró el usuario con id: " + id));
-
         usuarioRepository.delete(usuario);
         return "Usuario eliminado con éxito";
     }
 
+    // Métodos para convertir entre DTO y Entidad
+    private UsuarioDTO convertToDTO(Usuario usuario) {
+        return UsuarioDTO.builder()
+                .id(usuario.getId())
+                .nombre(usuario.getNombre())
+                .email(usuario.getEmail())
+                .password(usuario.getPassword()) // Asegúrate de asignar el campo password
+                .contacto(usuario.getContacto())
+                .latitud(usuario.getLatitud())
+                .longitud(usuario.getLongitud())
+                .tipoUsuario(usuario.getTipoUsuario())
+                .fechaCreacion(usuario.getFechaCreacion())
+                .build();
+    }
+    
 
+    private Usuario convertToEntity(UsuarioDTO usuarioDTO) {
+        return Usuario.builder()
+                .id(usuarioDTO.getId())
+                .nombre(usuarioDTO.getNombre())
+                .email(usuarioDTO.getEmail())
+                .password(usuarioDTO.getPassword()) // Asegúrate de manejar adecuadamente la seguridad del password
+                .contacto(usuarioDTO.getContacto())
+                .latitud(usuarioDTO.getLatitud())
+                .longitud(usuarioDTO.getLongitud())
+                .tipoUsuario(usuarioDTO.getTipoUsuario())
+                .build();
+    }
 }

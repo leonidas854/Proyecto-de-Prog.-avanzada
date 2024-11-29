@@ -1,13 +1,15 @@
 version: '3.8'
+
 services:
   empresa:
     build: .
     ports:
       - "8080:8080"
     environment:
-      DB_URL: jdbc:postgresql://postgres:5432/db_empresa
-      DB_USER_NAME: postgres
-      DB_PASSWORD: 124875369
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db_empresa
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 124875369
+      API_GOOGLE_MAPS: AIzaSyA_FbkeABMabU27PSRYMy2fzU1RPDaeWKY
     restart: always
     depends_on:
       postgres:
