@@ -1,12 +1,18 @@
 'use client'; // Habilitar eventos en el cliente
 import { useState, useEffect } from 'react';
+//import React, { SyntheticEvent ,useState} from 'react';
 import '../ClienteEstilo.css';
 
 export default function RegistroCliente() {
-  const [latitud, setLatitud] = useState('');
-  const [longitud, setLongitud] = useState('');
-  const [marker, setMarker] = useState(null);
-
+  const [nombre, setNombre] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [contacto, setContacto] = useState('');
+    const [direccion, setDireccion] = useState('');
+    const [latitud, setLatitud] = useState(0);
+    const [longitud, setLongitud] = useState(0);
+    const [marker, setMarker] = useState(null);
+    
   useEffect(() => {
     // Verificar si el script ya existe
     const scriptId = 'google-maps-script';
@@ -87,35 +93,35 @@ export default function RegistroCliente() {
       }
     });
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
   
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
     if (!latitud || !longitud) {
       alert("Por favor, selecciona una ubicación en el mapa.");
       return;
     }
-  
-    const usuario = {
-      nombre: e.target.nombre.value,
-      email: e.target.email.value,
-      password: e.target.password.value,
-      contacto: parseInt(e.target.contacto.value,10),
-      latitud: parseFloat(latitud),
-      longitud: parseFloat(longitud),
-      tipoUsuario: "CLIENTE", // Seleccionar entre Cliente o Sucursal
-    };
-  
+
     try {
       const response = await fetch("http://localhost:8080/usuarios", {
         method: "POST",
         headers: {
-          "Accept":"application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(usuario),
+        body: JSON.stringify({
+          nombre, 
+          email,
+          password,
+          contacto,
+          direccion,
+          latitud,
+          longitud,
+          tipoUsuario: "CLIENTE"
+        }),
       });
-  
+      //await router.push('/Clientes');
+
       if (response.ok) {
         const data = await response.json();
         alert(`Usuario registrado con éxito: ID ${data.id}`);
@@ -126,7 +132,7 @@ export default function RegistroCliente() {
     } catch (error) {
       alert(`Error al conectar con el servidor: ${error.message}`);
     }
-  };
+  }
   
   
 
@@ -136,16 +142,20 @@ export default function RegistroCliente() {
         <h1>REGISTRO CLIENTE</h1>
         <form onSubmit={handleSubmit}>
           <label htmlFor="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre" required />
+          <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre" 
+          required onChange={(e) => setNombre(e.target.value)}/>
 
           <label htmlFor="email">Email:</label>
-          <input type="email" id="email" name="email" placeholder="Ingrese su email" required />
+          <input type="email" id="email" name="email" placeholder="Ingrese su email" 
+          required onChange={(e) => setEmail(e.target.value)}/>
 
           <label htmlFor="password">Contraseña:</label>
-          <input type="password" id="password" name="password" placeholder="Ingrese su contraseña" required />
+          <input type="password" id="password" name="password" placeholder="Ingrese su contraseña" 
+          required onChange={(e) => setPassword(e.target.value)}/>
 
           <label htmlFor="contacto">Contacto:</label>
-          <input type="text" id="contacto" name="contacto" placeholder="Ingrese su contacto" required />
+          <input type="text" id="contacto" name="contacto" placeholder="Ingrese su contacto" 
+          required onChange={(e) => setContacto(e.target.value)}/>
 
           <label htmlFor="ubicacion">Ubicación:</label>
           <div className="ubicacion">
@@ -156,7 +166,7 @@ export default function RegistroCliente() {
               placeholder="Latitud"
               value={latitud}
               readOnly
-            />
+            onChange={(e) => setLatitud(e.target.value)}/>
             <input
               type="text"
               id="longitud"
@@ -164,6 +174,7 @@ export default function RegistroCliente() {
               placeholder="Longitud"
               value={longitud}
               readOnly
+              onChange={(e) => setLongitud(e.target.value)}
             />
           </div>
 
