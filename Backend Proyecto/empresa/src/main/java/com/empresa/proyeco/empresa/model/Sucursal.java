@@ -21,7 +21,7 @@ public class Sucursal {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
+    private String Nombre;
 
     @Column(nullable = false, length = 100)
     private String nombre;

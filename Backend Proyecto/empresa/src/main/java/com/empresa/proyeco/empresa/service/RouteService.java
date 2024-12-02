@@ -1,99 +1,223 @@
 package com.empresa.proyeco.empresa.service;
 
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.SimpleWeightedGraph;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.stereotype.Service;
 
 @Service
 public class RouteService {
-    private final Graph<String, DefaultWeightedEdge> ciudadGrafo;
-    private final Map<String, String> locaciones;
+    private final Map<String, double[]> ubicaciones; // Coordenadas de ubicaciones
+    private final List<Edge> edges;
+    private static final int INF = Integer.MAX_VALUE; // Conexiones entre ubicaciones
 
-    @Value("${google.api.key}")
-    private String apiKey;
-
-    private final RestTemplate restTemplate;
-
-    public RouteService(RestTemplate restTemplate) {
-        this.ciudadGrafo = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
-        this.locaciones = new HashMap<>();
-        this.restTemplate = restTemplate;
+    public RouteService() {
+        this.ubicaciones = new HashMap<>();
+        this.edges = new ArrayList<>();
     }
 
-    public void agregarCiudad(String interseccion) {
-        if (!ciudadGrafo.containsVertex(interseccion)) {
-            ciudadGrafo.addVertex(interseccion);
-            locaciones.put(interseccion, interseccion);
+    // Agregar una ubicación al mapa
+    public void agregarUbicacion(String nombre, double latitud, double longitud) {
+        if (!ubicaciones.containsKey(nombre)) {
+            ubicaciones.put(nombre, new double[]{latitud, longitud});
         }
     }
 
-    public void agregarArco(String origen, String destino) {
-        if (!ciudadGrafo.containsVertex(origen)) {
-            agregarCiudad(origen);
+    // Calcular la ruta óptima desde una sucursal a todos los clientes
+    public List<Map<String, Double>> calcularRutaOptimaDesdeSucursal(String nombreSucursal, List<String> clientes) {
+        // Validar que la sucursal y los clientes están registrados
+        if (!ubicaciones.containsKey(nombreSucursal)) {
+            throw new RuntimeException("Sucursal no encontrada en el sistema: " + nombreSucursal);
         }
-        if (!ciudadGrafo.containsVertex(destino)) {
-            agregarCiudad(destino);
+        for (String cliente : clientes) {
+            if (!ubicaciones.containsKey(cliente)) {
+                throw new RuntimeException("Cliente no encontrado en el sistema: " + cliente);
+            }
         }
-        double distancia = calcularDistanciaConGoogleMaps(origen, destino);
-        ciudadGrafo.addEdge(origen, destino);
-        ciudadGrafo.setEdgeWeight(ciudadGrafo.getEdge(origen, destino), distancia);
+
+        // Crear lista de nodos involucrados
+        List<String> nodos = new ArrayList<>();
+        nodos.add(nombreSucursal); // Sucursal como punto de partida
+        nodos.addAll(clientes);
+
+        // Generar matriz de distancias y lista de aristas
+        int[][] matrizDistancias = crearMatrizDistancias(nodos);
+        List<Edge> edges = crearListaEdges(nodos);
+
+        // Resolver el problema del Cartero Chino
+        ChinesePostman chinesePostman = new ChinesePostman();
+        int costoTotal = chinesePostman.solve(matrizDistancias, edges);
+
+        // Ordenar la ruta óptima
+        List<String> rutaOrdenada = nodos; // Aquí agregarías la lógica para ordenar la ruta
+
+        // Convertir nodos en coordenadas para el frontend
+        List<Map<String, Double>> coordenadas = new ArrayList<>();
+        for (String nodo : rutaOrdenada) {
+            double[] coords = ubicaciones.get(nodo);
+            Map<String, Double> punto = new HashMap<>();
+            punto.put("lat", coords[0]);
+            punto.put("lng", coords[1]);
+            coordenadas.add(punto);
+        }
+
+        return coordenadas;
     }
 
-    public Map<String, String> obtenerLocaciones() {
-        return locaciones;
-    }
-
-    public double calcularDistancia(String origen, String destino) {
-        if (ciudadGrafo.containsEdge(origen, destino)) {
-            return ciudadGrafo.getEdgeWeight(ciudadGrafo.getEdge(origen, destino));
+    // Crear matriz de distancias entre los nodos
+    private int[][] crearMatrizDistancias(List<String> nodos) {
+        int n = nodos.size();
+        int[][] matriz = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(matriz[i], Integer.MAX_VALUE);
         }
-        return -1; 
-    }
 
-    private double calcularDistanciaConGoogleMaps(String origen, String destino) {
-        String url = String.format(
-            "https://maps.googleapis.com/maps/api/distancematrix/json?origins=%s&destinations=%s&key=%s",
-            origen, destino, apiKey
-        );
-    
-        String response = restTemplate.getForObject(url, String.class);
-        double distanciaEnMetros = extractDistanceFromResponse(response);
-        return distanciaEnMetros / 1000.0; 
-    }
-    
-
-    private double extractDistanceFromResponse(String response) {
-       
-        try {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode rootNode = mapper.readTree(response);
-
-        JsonNode distanceNode = rootNode
-            .path("rows")
-            .get(0)
-            .path("elements")
-            .get(0)
-            .path("distance")
-            .path("value");
-
-        if (distanceNode.isNumber()) {
-            return distanceNode.asDouble(); 
-        } else {
-            throw new RuntimeException("No se pudo obtener la distancia de la respuesta");
+        // Rellenar la matriz con las distancias
+        for (Edge edge : edges) {
+            matriz[edge.from][edge.to] = edge.cost;
+            matriz[edge.to][edge.from] = edge.cost; // Grafo no dirigido
         }
-        } catch (JsonProcessingException | RuntimeException e) {
-        throw new RuntimeException("Error procesando la respuesta de Google Maps API: " + e.getMessage());
+
+        return matriz;
+    }
+
+    // Crear lista de aristas
+    private List<Edge> crearListaEdges(List<String> nodos) {
+        List<Edge> edges = new ArrayList<>();
+        for (int i = 0; i < nodos.size(); i++) {
+            for (int j = i + 1; j < nodos.size(); j++) {
+                double distancia = calcularDistancia(nodos.get(i), nodos.get(j));
+                edges.add(new Edge(i, j, (int) distancia));
+            }
+        }
+        return edges;
+    }
+
+    // Calcular distancia (simulación)
+    private double calcularDistancia(String origen, String destino) {
+        // Aquí podrías agregar lógica para calcular la distancia real
+        return Math.random() * 100; // Simulación de distancia
+    }
+
+    // Clase para representar aristas
+    private static class Edge {
+        int from, to, cost;
+
+        Edge(int from, int to, int cost) {
+            this.from = from;
+            this.to = to;
+            this.cost = cost;
+        }
+    }
+
+    private static class ChinesePostman {
+
+        private int solve(int[][] graph, List<Edge> edges) {
+            int n = graph.length;
+
+            // Verificar si el grafo es Euleriano
+            int[] degrees = calculateDegrees(graph);
+            List<Integer> oddVertices = findOddVertices(degrees);
+
+            if (oddVertices.isEmpty()) {
+                // El grafo ya es Euleriano
+                return calculateCost(edges);
+            }
+
+            // Emparejar vértices impares
+            int[][] minPaths = floydWarshall(graph);
+            int minCost = findMinimumMatching(oddVertices, minPaths);
+
+            // Sumar el costo adicional al costo inicial
+            return calculateCost(edges) + minCost;
+        }
+
+        private int[] calculateDegrees(int[][] graph) {
+            int n = graph.length;
+            int[] degrees = new int[n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (graph[i][j] != INF && graph[i][j] > 0) {
+                        degrees[i]++;
+                    }
+                }
+            }
+            return degrees;
+        }
+
+        private List<Integer> findOddVertices(int[] degrees) {
+            List<Integer> oddVertices = new ArrayList<>();
+            for (int i = 0; i < degrees.length; i++) {
+                if (degrees[i] % 2 != 0) {
+                    oddVertices.add(i);
+                }
+            }
+            return oddVertices;
+        }
+
+        private int calculateCost(List<Edge> edges) {
+            int totalCost = 0;
+            for (Edge edge : edges) {
+                totalCost += edge.cost;
+            }
+            return totalCost;
+        }
+
+        private int[][] floydWarshall(int[][] graph) {
+            int n = graph.length;
+            int[][] dist = new int[n][n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    dist[i][j] = graph[i][j];
+                }
+            }
+            for (int k = 0; k < n; k++) {
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < n; j++) {
+                        if (dist[i][k] != INF && dist[k][j] != INF) {
+                            dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
+                        }
+                    }
+                }
+            }
+            return dist;
+        }
+
+        private int findMinimumMatching(List<Integer> oddVertices, int[][] minPaths) {
+            int size = oddVertices.size();
+            int[][] cost = new int[size][size];
+
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    cost[i][j] = minPaths[oddVertices.get(i)][oddVertices.get(j)];
+                }
+            }
+
+            return matchMinimumCost(cost, size);
+        }
+
+        private int matchMinimumCost(int[][] cost, int size) {
+            int[] dp = new int[1 << size];
+            Arrays.fill(dp, INF);
+            dp[0] = 0;
+
+            for (int mask = 0; mask < (1 << size); mask++) {
+                for (int i = 0; i < size; i++) {
+                    if ((mask & (1 << i)) != 0) continue;
+                    for (int j = i + 1; j < size; j++) {
+                        if ((mask & (1 << j)) != 0) continue;
+
+                        int nextMask = mask | (1 << i) | (1 << j);
+                        dp[nextMask] = Math.min(dp[nextMask], dp[mask] + cost[i][j]);
+                    }
+                }
+            }
+
+            return dp[(1 << size) - 1];
         }
     }
 }
+

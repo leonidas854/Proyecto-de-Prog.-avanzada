@@ -1,19 +1,34 @@
 package com.empresa.proyeco.empresa.Controller;
 
-import com.empresa.proyeco.empresa.DTO.UsuarioDTO;
-import com.empresa.proyeco.empresa.model.*;
-import com.empresa.proyeco.empresa.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.empresa.proyeco.empresa.DTO.UsuarioDTO;
+import com.empresa.proyeco.empresa.model.TipoUsuario;
+import com.empresa.proyeco.empresa.model.Usuario;
+import com.empresa.proyeco.empresa.repository.UsuarioRepository;
+import com.empresa.proyeco.empresa.service.RouteService;
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
+    //private final RouteService routeService;
+    private final UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    
+
+    public UsuarioController(UsuarioRepository usuarioRepository, RouteService routeService) {
+        this.usuarioRepository = usuarioRepository;
+        //this.routeService = routeService;
+    }
 
     // Obtener todos los usuarios como DTO
     @GetMapping
@@ -36,8 +51,17 @@ public class UsuarioController {
     public UsuarioDTO createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         Usuario usuario = convertToEntity(usuarioDTO);
         Usuario savedUsuario = usuarioRepository.save(usuario);
+       
         return convertToDTO(savedUsuario);
     }
+    @GetMapping("/sucursal/{nombre}")
+    public UsuarioDTO getSucursalPorNombre(@PathVariable String nombre) {
+    Usuario sucursal = usuarioRepository.findByNombreAndTipoUsuario(nombre, TipoUsuario.SUCURSAL)
+            .orElseThrow(() -> new RuntimeException("No se encontró la sucursal con nombre: " + nombre));
+
+    return convertToDTO(sucursal);
+}
+
 
     // Actualizar un usuario existente
     @PutMapping("/{id}")
@@ -56,7 +80,13 @@ public class UsuarioController {
         Usuario updatedUsuario = usuarioRepository.save(usuario);
         return convertToDTO(updatedUsuario);
     }
-
+    @GetMapping("/sucursales")
+    public List<UsuarioDTO> getSucursales() {
+    return usuarioRepository.findAllByTipoUsuario(TipoUsuario.SUCURSAL)
+            .stream()
+            .map(this::convertToDTO)
+            .collect(Collectors.toList());
+}
     // Eliminar un usuario
     @DeleteMapping("/{id}")
     public String deleteUsuario(@PathVariable Long id) {

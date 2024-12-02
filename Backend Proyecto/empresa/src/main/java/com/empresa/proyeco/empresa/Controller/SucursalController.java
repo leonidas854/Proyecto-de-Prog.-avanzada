@@ -1,12 +1,22 @@
 package com.empresa.proyeco.empresa.Controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.empresa.proyeco.empresa.DTO.SucursalDTO;
 import com.empresa.proyeco.empresa.DTO.UbicacionDTO;
-import com.empresa.proyeco.empresa.model.*;
-import com.empresa.proyeco.empresa.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import com.empresa.proyeco.empresa.model.Sucursal;
+import com.empresa.proyeco.empresa.model.Ubicacion;
+import com.empresa.proyeco.empresa.repository.SucursalRepository;
 
 @RestController
 @RequestMapping("/sucursales")
@@ -39,6 +49,8 @@ public class SucursalController {
             ubicacionDTO
     );
     }
+   
+
 
 
 
