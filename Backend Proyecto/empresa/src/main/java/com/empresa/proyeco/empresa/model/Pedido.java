@@ -18,9 +18,7 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPedido;
 
-    @ManyToOne
-    @JoinColumn(name = "id_cliente", nullable = false)
-    private Clientes cliente;
+    
 
     @Column(nullable = false)
     private LocalDateTime fechaPedido;

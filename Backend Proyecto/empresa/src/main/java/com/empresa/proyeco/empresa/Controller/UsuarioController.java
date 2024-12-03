@@ -87,6 +87,13 @@ public class UsuarioController {
             .map(this::convertToDTO)
             .collect(Collectors.toList());
 }
+@GetMapping("/clientes")
+    public List<UsuarioDTO> getClientes() {
+    return usuarioRepository.findAllByTipoUsuario(TipoUsuario.CLIENTE)
+            .stream()
+            .map(this::convertToDTO)
+            .collect(Collectors.toList());
+}
     // Eliminar un usuario
     @DeleteMapping("/{id}")
     public String deleteUsuario(@PathVariable Long id) {

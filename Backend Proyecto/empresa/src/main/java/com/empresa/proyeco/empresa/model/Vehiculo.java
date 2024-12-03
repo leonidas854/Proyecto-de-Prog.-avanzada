@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 @Entity
@@ -24,15 +24,13 @@ public class Vehiculo {
     @Column(nullable = false)
     private Integer capacidadKg;
 
-    @ManyToOne
-    @JoinColumn(name = "id_sucursal", nullable = false)
-    private Sucursal sucursal;
-
     @Column(nullable = false, length = 20)
     private String disponibilidad;
 
     @Column(nullable = false)
-    private LocalDate fechaMantenimiento;
+    @Builder.Default
+    private LocalDateTime fechadeCreacion= LocalDateTime.now();
+
 
     @Column(nullable = false, length = 50)
     private String tipoVehiculo;

@@ -22,6 +22,7 @@ export default function Conductor() {
 
           <label htmlFor="numeroPedido">N° de pedido</label>
           <input type="text" id="numeroPedido" name="numeroPedido" />
+         
 
           <label htmlFor="origen">Origen</label>
           <input type="text" id="origen" name="origen" />

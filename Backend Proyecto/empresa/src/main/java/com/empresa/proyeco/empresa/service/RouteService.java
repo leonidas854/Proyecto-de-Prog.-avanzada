@@ -6,7 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 
 @Service
 public class RouteService {
@@ -14,9 +22,15 @@ public class RouteService {
     private final List<Edge> edges;
     private static final int INF = Integer.MAX_VALUE; // Conexiones entre ubicaciones
 
-    public RouteService() {
+    @Value("${google.api.key}")
+    private String googleApiKey; // Clave de la API de Google
+
+    private final RestTemplate restTemplate;
+
+    public RouteService(RestTemplate restTemplate) {
         this.ubicaciones = new HashMap<>();
         this.edges = new ArrayList<>();
+        this.restTemplate = restTemplate;
     }
 
     // Agregar una ubicación al mapa
@@ -98,8 +112,42 @@ public class RouteService {
 
     // Calcular distancia (simulación)
     private double calcularDistancia(String origen, String destino) {
-        // Aquí podrías agregar lógica para calcular la distancia real
-        return Math.random() * 100; // Simulación de distancia
+        double[] origenCoords = ubicaciones.get(origen);
+    double[] destinoCoords = ubicaciones.get(destino);
+
+    String origenStr = origenCoords[0] + "," + origenCoords[1];
+    String destinoStr = destinoCoords[0] + "," + destinoCoords[1];
+
+    String url = String.format(
+        "https://maps.googleapis.com/maps/api/distancematrix/json?origins=%s&destinations=%s&key=%s",
+        origenStr, destinoStr, googleApiKey
+    );
+
+    try {
+        String response = restTemplate.getForObject(url, String.class);
+
+        // Parsear la respuesta JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(response);
+
+        // Verificar el estado de la respuesta
+        String status = rootNode.path("status").asText();
+        if (!"OK".equals(status)) {
+            throw new RuntimeException("Error en la API de Google Maps: " + status);
+        }
+
+        // Extraer la distancia de la respuesta
+        JsonNode element = rootNode.path("rows").get(0).path("elements").get(0);
+        String elementStatus = element.path("status").asText();
+        if (!"OK".equals(elementStatus)) {
+            throw new RuntimeException("No se pudo calcular la distancia: " + elementStatus);
+        }
+
+        int distanciaEnMetros = element.path("distance").path("value").asInt();
+        return distanciaEnMetros / 1000.0; // Convertir a kilómetros
+    } catch (JsonProcessingException | RuntimeException e) {
+        throw new RuntimeException("Error al calcular la distancia con Google Maps API: " + e.getMessage(), e);
+    }
     }
 
     // Clase para representar aristas
