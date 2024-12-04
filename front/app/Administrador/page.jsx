@@ -21,6 +21,7 @@ export default function Administrador() {
               { path: 'Administrador/Seguim_Ruta', label: 'Seguir Ruta' },
               { path: 'Administrador/Reporte', label: 'Predicciones' },
               { path: 'Administrador/Simulaciones', label: 'Simulaciones' },
+              { path: 'Administrador/Ventana_de_Tiempo', label: 'Ventana de Tiempo' },
             ].map((item, index) => (
               <li key={index} className="nav">
                 <button
