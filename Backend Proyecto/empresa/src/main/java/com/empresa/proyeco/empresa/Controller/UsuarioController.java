@@ -3,26 +3,26 @@ package com.empresa.proyeco.empresa.Controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import com.empresa.proyeco.empresa.DTO.DemandaDTO;
 import com.empresa.proyeco.empresa.DTO.UsuarioDTO;
-import com.empresa.proyeco.empresa.model.TipoUsuario;
-import com.empresa.proyeco.empresa.model.Usuario;
-import com.empresa.proyeco.empresa.repository.UsuarioRepository;
+import com.empresa.proyeco.empresa.model.*;
+import com.empresa.proyeco.empresa.repository.*;
 import com.empresa.proyeco.empresa.service.RouteService;
+
+
+import java.util.Optional;
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
     //private final RouteService routeService;
     private final UsuarioRepository usuarioRepository;
-
+  @Autowired
+    private DemandaRepository demandaRepository;
+    
     
 
     public UsuarioController(UsuarioRepository usuarioRepository, RouteService routeService) {
@@ -94,6 +94,25 @@ public class UsuarioController {
             .map(this::convertToDTO)
             .collect(Collectors.toList());
 }
+@GetMapping("/demandas/{usuarioId}")
+public ResponseEntity<List<DemandaDTO>> getDemandasByUsuario(@PathVariable Long usuarioId) {
+    List<Demanda> demandas = demandaRepository.findByUsuarioId(usuarioId);
+
+    // Validación adicional para evitar problemas con datos nulos
+    List<DemandaDTO> demandaDTOs = demandas.stream().map(demanda -> {
+        Long usuarioIdSafe = (demanda.getUsuario() != null) ? demanda.getUsuario().getId() : null;
+        return DemandaDTO.builder()
+            .idDemanda(demanda.getIdDemanda())
+            .cantidad(demanda.getCantidad())
+            .descripcion(demanda.getDescripcion())
+            .inicioVentana(demanda.getInicioVentana())
+            .finVentana(demanda.getFinVentana())
+            .idUsuario(usuarioIdSafe)
+            .build();
+    }).collect(Collectors.toList());
+
+    return ResponseEntity.ok(demandaDTOs);
+}
     // Eliminar un usuario
     @DeleteMapping("/{id}")
     public String deleteUsuario(@PathVariable Long id) {
@@ -101,6 +120,54 @@ public class UsuarioController {
                 .orElseThrow(() -> new RuntimeException("No se encontró el usuario con id: " + id));
         usuarioRepository.delete(usuario);
         return "Usuario eliminado con éxito";
+    }
+     @PostMapping("/login")
+    public ResponseEntity<UsuarioDTO> login(@RequestParam String email, @RequestParam String password) {
+        Optional<Usuario> usuario = usuarioRepository.findByEmailAndPassword(email, password);
+        if (usuario.isEmpty()) {
+            return ResponseEntity.status(401).build();
+        }
+
+        Usuario user = usuario.get();
+        UsuarioDTO usuarioDTO = UsuarioDTO.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .nombre(user.getNombre())
+                .contacto(user.getContacto())
+                .build();
+
+        return ResponseEntity.ok(usuarioDTO);
+    }
+
+   
+
+    @PostMapping("/demandas")
+    public ResponseEntity<DemandaDTO> createDemanda(@RequestBody DemandaDTO demandaDTO) {
+        Optional<Usuario> usuario = usuarioRepository.findById(demandaDTO.getIdUsuario());
+        if (usuario.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Demanda demanda = Demanda.builder()
+                .cantidad(demandaDTO.getCantidad())
+                .descripcion("Pendiente")
+                .inicioVentana(demandaDTO.getInicioVentana())
+                .finVentana(demandaDTO.getFinVentana())
+                .usuario(usuario.get())
+                .build();
+
+        demanda = demandaRepository.save(demanda);
+
+        DemandaDTO createdDemandaDTO = DemandaDTO.builder()
+                .idDemanda(demanda.getIdDemanda())
+                .cantidad(demanda.getCantidad())
+                .descripcion(demanda.getDescripcion())
+                .inicioVentana(demanda.getInicioVentana())
+                .finVentana(demanda.getFinVentana())
+                .idUsuario(demanda.getUsuario().getId())
+                .build();
+
+        return ResponseEntity.ok(createdDemandaDTO);
     }
 
     // Métodos para convertir entre DTO y Entidad
@@ -116,6 +183,26 @@ public class UsuarioController {
                 .tipoUsuario(usuario.getTipoUsuario())
                 .fechaCreacion(usuario.getFechaCreacion())
                 .build();
+    }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<UsuarioDTO> buscarPorEmailYPassword(@RequestParam String email, @RequestParam String password) {
+        Optional<Usuario> usuario = usuarioRepository.findByEmailAndPassword(email, password);
+
+        if (usuario.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        UsuarioDTO usuarioDTO = UsuarioDTO.builder()
+                .id(usuario.get().getId())
+                .nombre(usuario.get().getNombre())
+                .email(usuario.get().getEmail())
+                .contacto(usuario.get().getContacto())
+                .latitud(usuario.get().getLatitud())
+                .longitud(usuario.get().getLongitud())
+                .build();
+
+        return ResponseEntity.ok(usuarioDTO);
     }
     
 

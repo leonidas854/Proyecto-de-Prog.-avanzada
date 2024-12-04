@@ -18,7 +18,7 @@ export default function Administrador() {
           <ul>
             <li className="nav">
               <button onClick={() => navigateTo('Administrador/Registro_User')} className="link-button">
-                REGISTRO USUARIO
+                Parametros de sensibilidad
               </button>
             </li>
             <li className="nav">
@@ -38,7 +38,12 @@ export default function Administrador() {
             </li>
             <li className="nav">
               <button onClick={() => navigateTo('Administrador/Reporte')} className="link-button">
-                GENERAR REPORTE
+                PREDICCIONES
+              </button>
+            </li>
+            <li className="nav">
+              <button onClick={() => navigateTo('Administrador/Simulaciones')} className="link-button">
+                Simulaciones
               </button>
             </li>
           </ul>

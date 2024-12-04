@@ -46,9 +46,4 @@ public class Usuario {
     @Column(nullable = false)
     @Builder.Default
     private LocalDateTime fechaCreacion = LocalDateTime.now();
-
- 
-
-
-    
 }
