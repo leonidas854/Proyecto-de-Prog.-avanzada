@@ -1,72 +1,219 @@
-'use client'; // Habilitar eventos en el cliente
-import './LoginEstilo.css';
-import { useRouter } from 'next/navigation'; // Importar el hook de navegación
+'use client';
+import { useState, useEffect } from 'react';
 
-export default function LoginCliente() {
-  const router = useRouter(); // Hook para manejar navegación
+export default function DemandaPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [usuario, setUsuario] = useState(null);
+  const [demandas, setDemandas] = useState([]);
+  const [nuevaDemanda, setNuevaDemanda] = useState({
+    cantidad: '',
+    inicioVentana: '',
+    finVentana: '',
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Previene el comportamiento por defecto del formulario
+  const [mapLoaded, setMapLoaded] = useState(false);
 
-    const email = e.target.email.value; // Obtener el valor del email
-    const password = e.target.password.value; // Obtener el valor de la contraseña
+  useEffect(() => {
+    // Cargar el script de Google Maps
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyA_FbkeABMabU27PSRYMy2fzU1RPDaeWKY&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+    window.initMap = () => {
+      setMapLoaded(true);
+    };
+    document.head.appendChild(script);
 
-    // Simulación de validación
-    if (email && password) {
-      alert('Inicio de sesión exitoso. Redirigiendo a la página de pedidos...');
-      router.push('/PedidoCliente'); // Redirige a la página de pedidos
-    } else {
-      alert('Por favor, complete todos los campos.');
+    return () => {
+      // Eliminar el script si el componente se desmonta
+      document.head.removeChild(script);
+    };
+  }, []);
+
+  const buscarUsuario = async () => {
+    if (!email || !password) {
+      alert('Por favor, complete los campos de email y contraseña.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8080/usuarios/buscar?email=${email}&password=${password}`);
+      if (!response.ok) {
+        throw new Error('Usuario no encontrado o credenciales inválidas.');
+      }
+      const data = await response.json();
+      setUsuario(data);
+      setTimeout(() => {
+        initMap(data.latitud, data.longitud); // Inicializar el mapa con las coordenadas del usuario
+      }, 500);
+      fetchDemandas(data.id);
+    } catch (error) {
+      alert(`Error al buscar usuario: ${error.message}`);
     }
   };
 
-  const handleHelpClick = () => {
-    alert('Redirigiendo al centro de ayuda...');
+  const fetchDemandas = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/demandas/${userId}`);
+      if (!response.ok) {
+        throw new Error('Error al obtener las demandas.');
+      }
+      const data = await response.json();
+      setDemandas(data);
+    } catch (error) {
+      alert(`Error cargando demandas: ${error.message}`);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNuevaDemanda({ ...nuevaDemanda, [name]: value });
+  };
+
+  const handleCreateDemanda = async () => {
+    if (!nuevaDemanda.cantidad || !nuevaDemanda.inicioVentana || !nuevaDemanda.finVentana) {
+      alert('Por favor, complete todos los campos.');
+      return;
+    }
+
+    if (!usuario) {
+      alert('Debe iniciar sesión antes de realizar una demanda.');
+      return;
+    }
+
+    const payload = {
+      idUsuario: usuario.id,
+      cantidad: parseInt(nuevaDemanda.cantidad, 10),
+      inicioVentana: nuevaDemanda.inicioVentana,
+      finVentana: nuevaDemanda.finVentana,
+    };
+
+    try {
+      const response = await fetch('http://localhost:8080/demandas/crear', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al crear la demanda.');
+      }
+
+      alert('Demanda creada con éxito.');
+      setNuevaDemanda({
+        cantidad: '',
+        inicioVentana: '',
+        finVentana: '',
+      });
+      fetchDemandas(usuario.id);
+    } catch (error) {
+      alert(`Error creando demanda: ${error.message}`);
+    }
+  };
+
+  const initMap = (lat = -17.824858, lng = -63.156085) => {
+    if (!window.google) return;
+
+    const map = new window.google.maps.Map(document.getElementById('map'), {
+      center: { lat, lng },
+      zoom: 14,
+    });
+
+    new window.google.maps.Marker({
+      position: { lat, lng },
+      map,
+      title: 'Ubicación del Usuario',
+    });
   };
 
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <div className="login-box">
-          <img
-            src="/image/login.png" // Ruta al ícono
-            alt="Login Icon"
-            className="login-icon"
+    <div style={{ padding: '20px' }}>
+      <h1>Pedidos Ya</h1>
+      {!usuario ? (
+        <div>
+          <h2>Login</h2>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ marginBottom: '10px', display: 'block' }}
           />
-          <h2>¡BIENVENIDO!</h2>
-          <p>Inicie sesión para continuar</p>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="email">Correo o teléfono celular</label>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              placeholder="Ingrese su correo o teléfono"
-              required
-            />
-
-            <label htmlFor="password">Contraseña</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Ingrese su contraseña"
-              required
-            />
-
-            <button type="submit" className="login-button">
-              Ingresar
-            </button>
-            <button
-              type="button"
-              className="help-button"
-              onClick={handleHelpClick}
-            >
-              Centro de ayuda
-            </button>
-          </form>
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{ marginBottom: '10px', display: 'block' }}
+          />
+          <button onClick={buscarUsuario}>Buscar Usuario</button>
         </div>
-      </div>
+      ) : (
+        <div>
+          <h2>Información del Usuario</h2>
+          <p><b>Nombre:</b> {usuario.nombre}</p>
+          <p><b>Email:</b> {usuario.email}</p>
+          <p><b>Contacto:</b> {usuario.contacto}</p>
+          <p><b>Ubicación:</b> Latitud: {usuario.latitud}, Longitud: {usuario.longitud}</p>
+
+          <h2>Demandas</h2>
+          {demandas.length > 0 ? (
+            <table border="1" style={{ width: '100%', marginBottom: '20px' }}>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Cantidad</th>
+                  <th>Descripción</th>
+                  <th>Inicio Ventana</th>
+                  <th>Fin Ventana</th>
+                </tr>
+              </thead>
+              <tbody>
+                {demandas.map((demanda) => (
+                  <tr key={demanda.idDemanda}>
+                    <td>{demanda.idDemanda}</td>
+                    <td>{demanda.cantidad}</td>
+                    <td>{demanda.descripcion}</td>
+                    <td>{new Date(demanda.inicioVentana).toLocaleString()}</td>
+                    <td>{new Date(demanda.finVentana).toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No se encontraron demandas.</p>
+          )}
+
+          <h2>Mapa de Ubicación del Usuario</h2>
+          <div id="map" style={{ width: '100%', height: '400px', marginBottom: '20px' }}></div>
+
+          <h2>Nueva Demanda</h2>
+          <input
+            type="number"
+            name="cantidad"
+            placeholder="Cantidad"
+            value={nuevaDemanda.cantidad}
+            onChange={handleInputChange}
+            style={{ marginBottom: '10px' }}
+          />
+          <input
+            type="datetime-local"
+            name="inicioVentana"
+            value={nuevaDemanda.inicioVentana}
+            onChange={handleInputChange}
+            style={{ marginBottom: '10px' }}
+          />
+          <input
+            type="datetime-local"
+            name="finVentana"
+            value={nuevaDemanda.finVentana}
+            onChange={handleInputChange}
+            style={{ marginBottom: '10px' }}
+          />
+          <button onClick={handleCreateDemanda}>Crear Demanda</button>
+        </div>
+      )}
     </div>
   );
 }

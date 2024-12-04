@@ -1,36 +1,33 @@
 package com.empresa.proyeco.empresa.model;
 
-
-import java.time.LocalDateTime;
-
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import jakarta.persistence.*;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+public class ParametrosDemanda {
 
-public class Oferta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idOferta;
+    private Long idParametro;
 
-    @Column(nullable = false, length = 100)
+
+    @Column(nullable = false)
     private String nombre;
+    
+    @Column(nullable = false)
+    private double alpha; // Tasa de crecimiento
+
+    
 
     @Column(nullable = false)
-    private Integer cantidad;
+    private double gamma; // Sensibilidad a la estacionalidad
 
-
-    @OneToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
-
-    @Column(nullable = false)
-    private String estado;
 
 }

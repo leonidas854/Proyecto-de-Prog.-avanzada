@@ -1,74 +1,80 @@
-'use client'; // Habilita eventos en el cliente
-import '../EstiloUsuario.css'; // Importa los estilos
-import { useRouter } from 'next/navigation'; // Hook para manejar navegación
+'use client'; // Habilitar eventos en el cliente
+import { useState } from 'react';
 
-export default function FrmUsuario() {
-  const router = useRouter(); // Inicializa el router para la navegación
+export default function ParametrosSensibilidad() {
+  const [nombre, setNombre] = useState(''); // Nombre del conjunto de parámetros
+  const [alpha, setAlpha] = useState(''); // Tasa de crecimiento
+  const [gamma, setGamma] = useState(''); // Sensibilidad a la estacionalidad
+  const [mensaje, setMensaje] = useState(''); // Mensaje de respuesta
 
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Evita la recarga de la página al enviar el formulario
-    alert('¡Usuario registrado con éxito!'); // Muestra el mensaje emergente
-    router.back(); // Navega a la página anterior
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const parametros = {
+      nombre,
+      alpha: parseFloat(alpha),
+      gamma: parseFloat(gamma),
+    };
+
+    try {
+      const response = await fetch('http://localhost:8080/api/parametros', { // Ajusta la URL según tu backend
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(parametros),
+      });
+
+      if (response.ok) {
+        setMensaje('Parámetros actualizados correctamente.');
+        setNombre('');
+        setAlpha('');
+        setGamma('');
+      } else {
+        const errorData = await response.json();
+        setMensaje(`Error al actualizar los parámetros: ${errorData.message}`);
+      }
+    } catch (error) {
+      setMensaje('Error al conectarse con el servidor.');
+    }
   };
 
   return (
-    <div className="registro-page">
-      {/* Barra de navegación */}
-      <nav className="navbar">
-        <div className="navbar-left">
-          <img src="/image/cambioRap.jpg" alt="Icono Izquierdo" className="icono" />
-        </div>
-        <div className="navbar-center">
-          <span>ADMINISTRADOR</span>
-        </div>
-        <div className="navbar-right">
-          <img src="/image/iconlogi.jpg" alt="Icono Derecho" className="icono" />
-        </div>
-      </nav>
-
-      {/* Contenedor del formulario */}
-      <div className="form-container">
-        <h2>REGISTRO DE USUARIO</h2>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="nombre">Nombre</label>
-          <input
-            type="text"
-            id="nombre"
-            name="nombre"
-            placeholder="Ingresa el nombre"
-            required
-          />
-
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Ingresa el correo electrónico"
-            required
-          />
-
-          <label htmlFor="contraseña">Contraseña:</label>
-          <input
-            type="password"
-            id="contraseña"
-            name="contraseña"
-            placeholder="Ingresa su contraseña"
-            required
-          />
-
-          <label htmlFor="rol">Rol</label>
-          <input
-            type="text"
-            id="rol"
-            name="rol"
-            placeholder="Ingresa su rol"
-            required
-          />
-
-          <button type="submit">Guardar</button>
-        </form>
-      </div>
+    <div>
+      <h1>Actualizar Parámetros</h1>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="nombre">Nombre del Conjunto de Parámetros:</label>
+        <input
+          id="nombre"
+          type="text"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+          required
+        />
+        <br />
+        <label htmlFor="alpha">Tasa de Crecimiento (alpha):</label>
+        <input
+          id="alpha"
+          type="number"
+          step="0.01"
+          value={alpha}
+          onChange={(e) => setAlpha(e.target.value)}
+          required
+        />
+        <br />
+        <label htmlFor="gamma">Sensibilidad a la Estacionalidad (gamma):</label>
+        <input
+          id="gamma"
+          type="number"
+          step="0.01"
+          value={gamma}
+          onChange={(e) => setGamma(e.target.value)}
+          required
+        />
+        <br />
+        <button type="submit">Actualizar</button>
+      </form>
+      {mensaje && <p>{mensaje}</p>}
     </div>
   );
 }

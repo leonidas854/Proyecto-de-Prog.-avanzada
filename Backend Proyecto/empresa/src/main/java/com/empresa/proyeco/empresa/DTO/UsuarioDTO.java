@@ -24,5 +24,15 @@ public class UsuarioDTO {
     private TipoUsuario tipoUsuario;
     private LocalDateTime fechaCreacion;
 
+    public UsuarioDTO(Long id, String nombre, String email, Integer contacto, BigDecimal latitud, BigDecimal longitud) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.contacto = contacto;
+        this.latitud = latitud;
+        this.longitud = longitud;
+    }
+    
+    
 
 }

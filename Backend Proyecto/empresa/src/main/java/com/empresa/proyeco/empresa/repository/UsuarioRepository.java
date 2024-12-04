@@ -10,6 +10,9 @@ import com.empresa.proyeco.empresa.model.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByNombreAndTipoUsuario(String nombre, TipoUsuario tipoUsuario);
     List<Usuario> findAllByTipoUsuario(TipoUsuario tipoUsuario);
+    Optional<Usuario> findByEmail(String email);
+    
+    Optional<Usuario> findByEmailAndPassword(String email, String password);
 
 
 }

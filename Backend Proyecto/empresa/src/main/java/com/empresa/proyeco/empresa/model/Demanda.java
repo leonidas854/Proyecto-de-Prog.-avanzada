@@ -1,6 +1,9 @@
 package com.empresa.proyeco.empresa.model;
 
 
+
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,11 +20,22 @@ public class Demanda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDemanda;
 
+
     @Column(nullable = false)
     private Integer cantidad;
 
     @ManyToOne
-    //demanda inicial
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
+
+    
+    @Column(nullable = false)
+    private String descripcion;
+
+
+    @Column(nullable = false)
+    private LocalDateTime inicioVentana;
+
+    @Column(nullable = false)
+    private LocalDateTime finVentana;
 }
