@@ -1,20 +1,25 @@
 'use client'; // Habilitar eventos en el cliente
 import { useState, useEffect } from 'react';
-//import React, { SyntheticEvent ,useState} from 'react';
 import '../ClienteEstilo.css';
+//import './Registro.css';
+
 
 export default function RegistroCliente() {
   const [nombre, setNombre] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [contacto, setContacto] = useState('');
-    const [direccion, setDireccion] = useState('');
-    const [latitud, setLatitud] = useState(0);
-    const [longitud, setLongitud] = useState(0);
-    const [marker, setMarker] = useState(null);
-    
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [contacto, setContacto] = useState('');
+  const [direccion, setDireccion] = useState('');
+  const [latitud, setLatitud] = useState(0);
+  const [longitud, setLongitud] = useState(0);
+  const [circle, setCircle] = useState(null); // Estado para el círculo
+  const [mapInstance, setMapInstance] = useState(null); // Para guardar la instancia del mapa
+
+  
+
+
   useEffect(() => {
-    // Verificar si el script ya existe
+    // Verificar si el script de Google Maps ya está cargado
     const scriptId = 'google-maps-script';
     let script = document.getElementById(scriptId);
 
@@ -28,73 +33,88 @@ export default function RegistroCliente() {
       document.body.appendChild(script);
 
       script.onload = () => {
-        // Inicializar el mapa después de cargar el script
-        initMap();
+        initMap(); // Inicializar el mapa cuando el script se haya cargado
       };
     } else if (window.google) {
       // Si el script ya está cargado, inicializar directamente
       initMap();
     }
 
-    // Limpiar el script al desmontar solo si lo hemos agregado
     return () => {
       if (script && !document.getElementById(scriptId)) {
         script.remove();
       }
-    };
-  }, [marker]);
+    };  
+  },   []); // Solo se ejecuta una vez al montar el componente
 
   // Función para inicializar el mapa
   const initMap = () => {
-    const cochabambaBounds = {
-      north: -16.3,
-      south: -17.7,
-      east: -65.2,
-      west: -67.2,
+    const cercadoBounds = {
+      north: -17.3400, // Límite norte
+      south: -17.4400, // Límite sur
+      east: -66.1200, // Límite este
+      west: -66.2000, // Límite oeste
     };
 
-    const coordInicial = { lat: -17.3938, lng: -66.1568 }; // Coordenadas iniciales de Cochabamba
-    const mapInstance = new google.maps.Map(document.getElementById('map'), {
+    const coordInicial = { lat: -17.3926, lng: -66.1570 }; // Coordenadas iniciales de Cochabamba
+    const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 10,
       center: coordInicial,
       restriction: {
-        latLngBounds: cochabambaBounds,
+        latLngBounds: cercadoBounds,
         strictBounds: true,
       },
     });
 
+    setMapInstance(map); // Guardamos la instancia del mapa
+
     // Evento de clic en el mapa
-    mapInstance.addListener('click', (e) => {
+    map.addListener('click', (e) => {
       const lat = e.latLng.lat();
       const lng = e.latLng.lng();
 
+      // Comprobamos que la ubicación esté dentro de los límites de Cochabamba
       if (
-        lat <= cochabambaBounds.north &&
-        lat >= cochabambaBounds.south &&
-        lng <= cochabambaBounds.east &&
-        lng >= cochabambaBounds.west
+        lat <= cercadoBounds.north &&
+        lat >= cercadoBounds.south &&
+        lng <= cercadoBounds.east &&
+        lng >= cercadoBounds.west
       ) {
         setLatitud(lat);
         setLongitud(lng);
 
-        // Crear o actualizar el marcador
-        if (!marker) {
-          const newMarker = new google.maps.Marker({
-            position: { lat, lng },
-            map: mapInstance,
-            title: 'Ubicación Seleccionada',
-          });
-          setMarker(newMarker);
-        } else {
-          marker.setPosition({ lat, lng });
-        }
+        // Si ya existe un círculo, lo eliminamos de forma diferente
+        removePreviousCircle(); // Función para eliminar el círculo anterior
+
+        // Crear un nuevo círculo para marcar la ubicación
+        const newCircle = new google.maps.Circle({
+          center: { lat, lng },
+          radius: 100, // Radio en metros del círculo (puedes ajustarlo)
+          map: map,
+          fillColor: "#FF0000", // Color de relleno
+          fillOpacity: 0.35,  // Opacidad
+          strokeColor: "#FF0000", // Color del borde
+          strokeWeight: 1, // Grosor del borde
+        });
+
+        // Actualizar el círculo en el estado
+        setCircle(newCircle); // Guardamos el nuevo círculo en el estado
       } else {
         alert('Por favor, selecciona un punto dentro de Cochabamba.');
       }
     });
   };
-  
 
+  // Función para eliminar el círculo anterior
+  const removePreviousCircle = () => {
+    if (circle) {
+      // Si el círculo ya existe, lo eliminamos de la vista
+      circle.setMap(null); // Eliminar el círculo actual de la vista
+      setCircle(null); // Limpiar el estado de 'circle'
+    }
+  };
+
+  // Función para manejar el submit del formulario
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -120,7 +140,6 @@ export default function RegistroCliente() {
           tipoUsuario: "CLIENTE"
         }),
       });
-      //await router.push('/Clientes');
 
       if (response.ok) {
         const data = await response.json();
@@ -133,56 +152,85 @@ export default function RegistroCliente() {
       alert(`Error al conectar con el servidor: ${error.message}`);
     }
   }
-  
-  
+
 
   return (
     <div className="page-container form-page">
-      <div className="form-container">
-        <h1>REGISTRO CLIENTE</h1>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre" 
-          required onChange={(e) => setNombre(e.target.value)}/>
+        <div className="form-container">
+          <h1>REGISTRO CLIENTE</h1>
+            <form onSubmit={handleSubmit}>
+            <label htmlFor="nombre"></label>
+              <div className="grupo">
+                <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                placeholder="Nombre"
+                required
+                onChange={(e) => setNombre(e.target.value)}
+                /><span className="barra"></span> </div>
 
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" name="email" placeholder="Ingrese su email" 
-          required onChange={(e) => setEmail(e.target.value)}/>
+            <label  htmlFor="email"></label>
+              <div className="grupo">
+                <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email"
+                required
+                onChange={(e) => setEmail(e.target.value)}
+                /><span className="barra"></span></div>
 
-          <label htmlFor="password">Contraseña:</label>
-          <input type="password" id="password" name="password" placeholder="Ingrese su contraseña" 
-          required onChange={(e) => setPassword(e.target.value)}/>
+            <label htmlFor="password"></label>
+              <div className="grupo">
+                <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Contraseña"
+                required
+                onChange={(e) => setPassword(e.target.value)}
+                /><span className="barra"></span> </div>
 
-          <label htmlFor="contacto">Contacto:</label>
-          <input type="text" id="contacto" name="contacto" placeholder="Ingrese su contacto" 
-          required onChange={(e) => setContacto(e.target.value)}/>
+            <label  htmlFor="contacto"></label>
+              <div className="grupo">
+                <input
+                type="text"
+                id="contacto"
+                name="contacto"
+                placeholder="Contacto"
+                required
+                onChange={(e) => setContacto(e.target.value)}
+                /><span className="barra"></span> </div>
 
-          <label htmlFor="ubicacion">Ubicación:</label>
-          <div className="ubicacion">
-            <input
-              type="text"
-              id="latitud"
-              name="latitud"
-              placeholder="Latitud"
-              value={latitud}
-              readOnly
-            onChange={(e) => setLatitud(e.target.value)}/>
-            <input
-              type="text"
-              id="longitud"
-              name="longitud"
-              placeholder="Longitud"
-              value={longitud}
-              readOnly
-              onChange={(e) => setLongitud(e.target.value)}
-            />
+            <label htmlFor="ubicacion"></label>
+             <div className="ubicacion">
+                 <div className="grupo">
+                  <input
+                  type="text"
+                  id="latitud"
+                  name="latitud"
+                  placeholder="Latitud"
+                  value={latitud}
+                  readOnly
+                  /></div>
+              <div className="grupo">
+                <input
+                type="text"
+                id="longitud"
+                name="longitud"
+                placeholder="Longitud"
+                value={longitud}
+                readOnly
+              /></div>
           </div>
+          </form>
 
-          <div id="map" className="map-container"></div>
+          <div id="map" className="map-container" style={{ width: '100%', height: '400px' }}></div>
 
           <button type="submit">Registrarse</button>
-        </form>
-      </div>
+        
+    </div>
     </div>
   );
 }

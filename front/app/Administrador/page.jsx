@@ -10,6 +10,8 @@ export default function Administrador() {
   };
 
   return (
+
+    
     <div className="admin-page">
       <header>
         <nav className="navbar">
@@ -43,11 +45,39 @@ export default function Administrador() {
         </nav>
       </header>
 
+      <section className="contenedor-imagen">
+      
+          <Image
+            src="/image/f2.png"
+            alt="Logo Coca-Cola"
+            width={1200}
+            height={400}
+            layout="responsive"
+            className="imagen-arriba"
+          />
+        </section>
+
       <main>
         <section className="contenido">
           <h1>Bienvenido Administrador al Sistema de Distribución de Coca-Cola</h1>
         </section>
       </main>
+
+      <div className="content-all">
+          <div className="content-carrousel">
+            <figure><img src="/image/iconocc.jpg" alt="Imagen 1" /></figure>
+            <figure><img src="/image/iconocc.jpg" alt="Imagen 2" /></figure>
+            <figure><img src="/image/iconocc.jpg" alt="Imagen 3" /></figure>
+            <figure><img src="/image/iconocc.jpg" alt="Imagen 4" /></figure>
+            <figure><img src="/image/iconocc.jpg" alt="Imagen 5" /></figure>
+            <figure><img src="/image/iconocc.jpg" alt="Imagen 6" /></figure>
+            <figure><img src="/image/iconocc.jpg" alt="Imagen 7" /></figure>
+            <figure><img src="/image/iconocc.jpg" alt="Imagen 8" /></figure>
+            <figure><img src="/image/iconocc.jpg" alt="Imagen 9" /></figure>
+            <figure><img src="/image/iconocc.jpg" alt="Imagen 10" /></figure>
+          </div>
+        </div>
+
     </div>
   );
 }
