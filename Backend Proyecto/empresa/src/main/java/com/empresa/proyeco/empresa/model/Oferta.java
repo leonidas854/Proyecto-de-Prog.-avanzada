@@ -1,7 +1,6 @@
 package com.empresa.proyeco.empresa.model;
 
 
-import java.time.LocalDateTime;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

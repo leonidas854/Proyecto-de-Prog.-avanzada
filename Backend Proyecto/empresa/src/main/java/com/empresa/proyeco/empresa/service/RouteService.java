@@ -150,6 +150,13 @@ public class RouteService {
     }
     }
 
+    private static final double COSTO_POR_KILOMETRO = 0.31; // Bs/km
+
+    public double calcularCosto(String origen, String destino) {
+    double distanciaEnKm = calcularDistancia(origen, destino);
+    return distanciaEnKm * COSTO_POR_KILOMETRO;
+    }
+
     // Clase para representar aristas
     private static class Edge {
         int from, to, cost;
