@@ -33,14 +33,14 @@ export default function Clientes() {
           <div className="face front">
             <Image
               src="/image/cliente_antiguo.jpg"
-              alt="Cliente Anterior"
+              alt="Login Cliente"
               width={300}
               height={200}
             />
             <h3>CLIENTE ANTERIOR</h3>
           </div>
           <div className="face back">
-            <h3>CLIENTE ANTERIOR</h3>
+            <h3>LOGIN CLIENTE</h3>
             <p>Consulta tus datos y accede a tu cuenta como cliente registrado.</p>
             <div className="link">
               <Link href="Clientes/Login">Iniciar sesión</Link>

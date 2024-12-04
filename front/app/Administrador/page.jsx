@@ -1,68 +1,85 @@
 'use client'; // Habilitar eventos en el cliente
 import Image from 'next/image'; // Importa el componente Image de Next.js
-import { useRouter } from 'next/navigation'; // Hook para navegación
+import Link from "next/link"; // Para navegación entre páginas
+import { useState } from 'react'; // Hook para manejar estados
+import "../css/Estilo_admin.css"; // Importa los estilos CSS
 
 export default function Administrador() {
-  const router = useRouter();
+  const [isChecked, setIsChecked] = useState(false); // Estado del checkbox del menú
 
-  const navigateTo = (path) => {
-    router.push(path); // Redirige a la ruta correspondiente
+  // Función para manejar el cambio de estado del checkbox
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
   };
 
   return (
     <div className="admin-page">
+      {/* Encabezado con el menú */}
       <header>
-        <nav className="navbar">
+        <nav>
+          {/* Menú con checkbox para dispositivos móviles */}
+          <input
+            type="checkbox"
+            id="check"
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+          />
+          <label htmlFor="check" className="checkbtn">
+            <i className="fas fa-bars"></i> {/* Ícono del menú */}
+          </label>
+
+          {/* Enlace con logo */}
+          <a href="#" className="enlace">
+            <img src="/image/logo.png" alt="Logo" className="logo" />
+          </a>
+
+          {/* Menú de navegación */}
           <ul>
-            {[
-              { path: 'Administrador/Registro_User', label: 'Parámetros de Sensibilidad' },
-              { path: 'Administrador/Registro_Vehiculos', label: 'Registro Vehículos' },
-              { path: 'Administrador/Ruta', label: 'Formular Ruta' },
-              { path: 'Administrador/Seguim_Ruta', label: 'Seguir Ruta' },
-              { path: 'Administrador/Reporte', label: 'Predicciones' },
-              { path: 'Administrador/Simulaciones', label: 'Simulaciones' },
-              { path: 'Administrador/Ventana_de_Tiempo', label: 'Ventana de Tiempo' },
-            ].map((item, index) => (
-              <li key={index} className="nav">
-                <button
-                  onClick={() => navigateTo(item.path)}
-                  className="link-button"
-                  aria-label={item.label}
-                >
-                  {item.label}
-                </button>
-              </li>
-            ))}
+            <li>
+              <Link href="/Administrador/Registro_User">Parámetros de Sensibilidad</Link>
+            </li>
+            <li>
+              <Link href="/Administrador/Registro_Vehiculos">Registro Vehículos</Link>
+            </li>
+            <li>
+              <Link href="/Administrador/Ruta">Formular Ruta</Link>
+            </li>
+            <li>
+              <Link href="/Administrador/Seguim_Ruta">Seguir Ruta</Link>
+            </li>
+            <li>
+              <Link href="/Administrador/Reporte">Predicciones</Link>
+            </li>
+            <li>
+              <Link href="/Administrador/Simulaciones">Simulaciones</Link>
+            </li>
+            <li>
+              <Link href="/Administrador/Ventana_de_Tiempo">Ventana de Tiempo</Link>
+            </li>
           </ul>
         </nav>
       </header>
 
+      {/* Contenido principal */}
+      <main>
+        <div className="titulo">
+          <h1>Bienvenido Administrador</h1>
+        </div>
+      </main>
+
+      {/* Espaciado */}
+      <br /><br /><br /><br /><br /><br /><br />
+
+      {/* Imagen de fondo */}
       <section className="contenedor-imagen">
         <Image
           src="/image/f2.png"
-          alt="Logo Coca-Cola"
-          width={1200}
-          height={400}
-          layout="responsive"
-          className="imagen-arriba"
+          alt="fondo Coca-Cola"
+          width={2000}
+          height={500}
+          className="imagen-abajo"
         />
       </section>
-
-      <main>
-        <section className="contenido">
-          <h1>Bienvenido Administrador al Sistema de Distribución de Coca-Cola</h1>
-        </section>
-      </main>
-
-      <div className="content-all">
-        <div className="content-carrousel">
-          {[...Array(10)].map((_, index) => (
-            <figure key={index}>
-              <img src="/image/iconocc.jpg" alt={`Imagen ${index + 1}`} />
-            </figure>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import './LoginEstilo.css';
 
 export default function DemandaPage() {
   const [email, setEmail] = useState('');
@@ -128,27 +129,38 @@ export default function DemandaPage() {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Pedidos Ya</h1>
-      {!usuario ? (
-        <div>
-          <h2>Login</h2>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ marginBottom: '10px', display: 'block' }}
-          />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ marginBottom: '10px', display: 'block' }}
-          />
-          <button onClick={buscarUsuario}>Buscar Usuario</button>
-        </div>
+    <div className="login-container">
+  <h1 className="login-header">LOGIN USUARIO</h1>
+  {!usuario ? (
+    <div className="login-form">
+      <h2 className="form-title">Login</h2>
+      <div className="form-group">
+        <label htmlFor="email" className="form-label">Email:</label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          className="form-input"
+        />
+      </div>
+      
+      <div className="form-group">
+        <label htmlFor="password" className="form-label">Contraseña:</label>
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Contraseña"
+          className="form-input"
+        />
+      </div>
+      
+      <br/><br/>
+      <button onClick={buscarUsuario} className="form-button">Buscar Usuario</button>
+    </div>
       ) : (
         <div>
           <h2>Información del Usuario</h2>

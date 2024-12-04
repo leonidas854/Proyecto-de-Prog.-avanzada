@@ -1,19 +1,20 @@
 /* Contenedor principal */
 .form-container {
-  padding: 20px;
+  padding: 50px;
   max-width: 500px;
   margin: 50px auto;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: rgba(211, 203, 184, 0.7);
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Título del formulario */
 .form-header {
+  font-family: 'Klarissa', sans-serif;
   text-align: center;
   color: #333;
-  font-size: 24px;
+  font-size: 45px;
   margin-bottom: 20px;
 }
 
@@ -33,8 +34,8 @@
 /* Etiquetas */
 .form-label {
   margin-bottom: 5px;
-  font-size: 14px;
-  color: #555;
+  font-size: 20px;
+  color: #333;
 }
 
 /* Inputs */
@@ -52,7 +53,7 @@
   padding: 10px;
   font-size: 16px;
   color: #fff;
-  background-color: #007bff;
+  background: linear-gradient(to right, #ED213A, #93291E);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -61,7 +62,7 @@
 }
 
 .form-button:hover {
-  background-color: #0056b3;
+  background: linear-gradient(to right, #ED213A, #93291E);
 }
 
 /* Mensajes */
@@ -77,4 +78,26 @@
 
 .form-message-error {
   color: red;
+}
+
+body {
+  background-image: url('/image/camionf.png');
+  background-color: rgba(0, 0, 0, 0.5); /* Capa semi-transparente oscura */
+  z-index: 1; /* Asegura que la capa esté encima de la imagen */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+@font-face {
+  font-family: 'Klarissa'; /* Nombre de la fuente (puedes elegir el que prefieras) */
+  src: url('./Klarissa.ttf') format('truetype'); /* Ruta relativa desde el CSS */
+  font-weight: normal; /* Opcional: puedes definir bold, light, etc. */
+  font-style: normal;  /* Opcional: define normal, italic, etc. */
 }

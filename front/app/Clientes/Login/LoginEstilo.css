@@ -1,7 +1,7 @@
 /* General */
 /* Fondo exclusivo para la página de Login */
 .login-page {
-    background: url('/image/fondo2.jpg') no-repeat center center fixed;
+    background: url('/image/fondo1 .jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -9,14 +9,39 @@
     min-height: 100vh; /* Ocupa toda la ventana */
     width: 100%; /* Asegura que el fondo cubra todo el ancho */
   }
-  
-  /* Contenedor principal */
-  .login-container {
+
+  body {
+    background-image: url('/image/img1.png');
+    background-color: rgba(0, 0, 0, 0.5); /* Capa semi-transparente oscura */
+    z-index: 1; /* Asegura que la capa esté encima de la imagen */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    position: relative;
+  }
+  
+  /* Contenedor principal */
+  .login-container {
+    padding: 50px;
+  max-width: 500px;
+  margin: 50px auto;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #ece4e4b3;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .login-header {
+    font-family: 'Klarissa', sans-serif;
+    text-align: center;
+    color: #333;
+    font-size: 45px;
+    margin-bottom: 20px;
   }
   
   /* Caja del formulario */
@@ -72,7 +97,7 @@
   }
   
   /* Botones */
-  .login-button,
+  .form-button,
   .help-button {
     width: 100%;
     padding: 10px;
@@ -83,13 +108,13 @@
     cursor: pointer;
   }
   
-  .login-button {
-    background-color: #4caf50;
+  .form-button {
+    background: linear-gradient(to right, #333333, #dd1818);
     color: white;
   }
   
-  .login-button:hover {
-    background-color: #45a049;
+  .form-button:hover {
+    background: linear-gradient(to right, #333333, #dd1818);
   }
   
   .help-button {
@@ -100,4 +125,18 @@
   .help-button:hover {
     background-color: #e53935;
   }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+@font-face {
+  font-family: 'Klarissa'; /* Nombre de la fuente (puedes elegir el que prefieras) */
+  src: url('./Klarissa.ttf') format('truetype'); /* Ruta relativa desde el CSS */
+  font-weight: normal; /* Opcional: puedes definir bold, light, etc. */
+  font-style: normal;  /* Opcional: define normal, italic, etc. */
+}
+  
+
   

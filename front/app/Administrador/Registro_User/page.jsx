@@ -1,6 +1,6 @@
 'use client'; // Habilitar eventos en el cliente
 import { useState } from 'react';
-
+import './registro.css';
 export default function ParametrosSensibilidad() {
   const [nombre, setNombre] = useState(''); // Nombre del conjunto de parámetros
   const [alpha, setAlpha] = useState(''); // Tasa de crecimiento
@@ -41,8 +41,10 @@ export default function ParametrosSensibilidad() {
 
   return (
     <div>
+      <div className="form-container">
       <h1>Actualizar Parámetros</h1>
       <form onSubmit={handleSubmit}>
+      <div className="grupo">
         <label htmlFor="nombre">Nombre del Conjunto de Parámetros:</label>
         <input
           id="nombre"
@@ -51,7 +53,9 @@ export default function ParametrosSensibilidad() {
           onChange={(e) => setNombre(e.target.value)}
           required
         />
-        <br />
+        </div>
+        
+        <div className="grupo">
         <label htmlFor="alpha">Tasa de Crecimiento (alpha):</label>
         <input
           id="alpha"
@@ -62,6 +66,8 @@ export default function ParametrosSensibilidad() {
           required
         />
         <br />
+        </div>
+        <div className="grupo">
         <label htmlFor="gamma">Sensibilidad a la Estacionalidad (gamma):</label>
         <input
           id="gamma"
@@ -70,11 +76,14 @@ export default function ParametrosSensibilidad() {
           value={gamma}
           onChange={(e) => setGamma(e.target.value)}
           required
-        />
+        /></div>
+        
         <br />
+        
         <button type="submit">Actualizar</button>
       </form>
       {mensaje && <p>{mensaje}</p>}
+    </div>
     </div>
   );
 }

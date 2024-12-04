@@ -1,40 +1,79 @@
-.admin-page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 /* Navbar */
-.navbar {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+nav {
+  position: fixed; /* Fija el elemento en la pantalla */
+top: 0; /* Asegura que esté en la parte superior */
+left: 0;
+width: 100%; /* Se extiende a todo el ancho */
+z-index: 1000; /* Asegura que esté sobre otros elementos */
+background-color: rgba(0, 0, 0, 0.5); /* Fondo opcional */
+padding: 10px 20px; /* Espaciado interno */
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para el efecto */
 }
 
-.navbar ul {
-  list-style: none;
-  display: flex;
-  gap: 15px;
-  margin: 0;
-  padding: 0;
+
+.enlace {
+  position: relative;
 }
 
-.navbar ul li .link-button {
-  background: none;
-  border: none;
-  color: white;
+.logo {
+  height: 60px;
+  text-align: center;
+}
+
+nav ul {
+  float: right;
+  margin-right: 20px;
+}
+
+nav ul li {
+  display: inline-block;
+  line-height: 80px;
+  margin: 0 5px;
+}
+
+nav ul li a {
+  color: #fff;
   font-size: 18px;
-  cursor: pointer;
+  padding: 7px 13px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
 }
 
-.navbar ul li .link-button:hover {
-  color: #e21e26;
+li a.active,
+li a:hover {
+  background: #f5331e;
+  transition: 0.5s;
 }
+
+
+.checkbtn {
+  font-size: 30px;
+  color: #fff;
+  float: right;
+  line-height: 80px;
+  margin-right: 40px;
+  cursor: pointer;
+  display: none;
+}
+
+#check {
+  display: none;
+}
+
+
+.titulo{
+  font-family: 'Bebas', sans-serif;
+  position: relative;
+  top: 50%; /* Posición vertical centrada */
+  left: 50%; /* Posición horizontal centrada */
+  transform: translate(-23%, 85%); /* Centra el texto perfectamente */
+  color: red; /* Color del texto */
+  font-size: 3rem; /* Tamaño del título */
+  text-align: left; /* Centra el texto */
+  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5); /* Agrega sombra al texto para que sea más legible */
+}
+
 
 /* Contenedor y Carrusel */
 .content-all {
@@ -78,4 +117,11 @@
   to {
     transform: rotateY(360deg);
   }
+}
+
+@font-face {
+  font-family: 'Bebas'; /* Nombre de la fuente (puedes elegir el que prefieras) */
+  src: url('../fonts/BebasNeue-Regular.ttf') format('truetype'); /* Ruta relativa desde el CSS */
+  font-weight: normal; /* Opcional: puedes definir bold, light, etc. */
+  font-style: normal;  /* Opcional: define normal, italic, etc. */
 }

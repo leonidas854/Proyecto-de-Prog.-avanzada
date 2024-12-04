@@ -85,20 +85,18 @@ export default function HomePage() {
 
         <div className="content-all">
           <div className="content-carrousel">
-            <figure><img src="/image/iconocc.jpg" alt="Imagen 1" /></figure>
-            <figure><img src="/image/iconocc.jpg" alt="Imagen 2" /></figure>
-            <figure><img src="/image/iconocc.jpg" alt="Imagen 3" /></figure>
-            <figure><img src="/image/iconocc.jpg" alt="Imagen 4" /></figure>
-            <figure><img src="/image/iconocc.jpg" alt="Imagen 5" /></figure>
-            <figure><img src="/image/iconocc.jpg" alt="Imagen 6" /></figure>
-            <figure><img src="/image/iconocc.jpg" alt="Imagen 7" /></figure>
-            <figure><img src="/image/iconocc.jpg" alt="Imagen 8" /></figure>
-            <figure><img src="/image/iconocc.jpg" alt="Imagen 9" /></figure>
-            <figure><img src="/image/iconocc.jpg" alt="Imagen 10" /></figure>
+            <figure><img src="/image/c.jpg" alt="Imagen 1" /></figure>
+            <figure><img src="/image/co.jpg" alt="Imagen 2" /></figure>
+            <figure><img src="/image/fondo2.jpg" alt="Imagen 3" /></figure>
+            <figure><img src="/image/img1.png" alt="Imagen 4" /></figure>
+            <figure><img src="/image/img2.png" alt="Imagen 5" /></figure>
+            <figure><img src="/image/img3.png" alt="Imagen 6" /></figure>
+            <figure><img src="/image/o.jpg" alt="Imagen 7" /></figure>
+            <figure><img src="/image/img4.jpg" alt="Imagen 8" /></figure>
+            <figure><img src="/image/img5.jpg" alt="Imagen 9" /></figure>
+            <figure><img src="/image/img6.jpg" alt="Imagen 10" /></figure>
           </div>
         </div>
-        
-
        
         <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/><br/> <br/> <br/> <br/> <br/> <br/>
         

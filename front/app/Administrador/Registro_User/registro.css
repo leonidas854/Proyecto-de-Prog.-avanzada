@@ -1,0 +1,68 @@
+
+.grupo {
+    position: relative;
+    margin-bottom: 5px;
+  }
+  .form-container h1 {
+    font-size: 50px;
+    margin-bottom: 20px;
+  }
+
+  .form-container {
+    width: 450px;
+    max-width: 450px;
+    background: #fff;
+    padding: 40px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 6px 0 rgba(255, 255, 255, 0.8);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: auto;
+    background: none; /* Para que el fondo no se repita */
+    padding: 0;
+    box-shadow: none; /* Aquí usaremos un box-shadow más suave */
+  }
+
+  body {
+    background: #4568DC;
+    background: -webkit-linear-gradient(to right, #ad5389, #3c1053);
+    background: linear-gradient(to right, #ad5389, #3c1053);
+    height: 90vh; /* Cambié de 650px a 100vh para cubrir toda la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  h1 {
+    font-family: 'Klarissa', sans-serif;
+    text-align: center;
+    font-weight: 700;
+    
+  }
+
+  @font-face {
+    font-family: 'Klarissa'; /* Nombre de la fuente (puedes elegir el que prefieras) */
+    src: url('./Klarissa.ttf') format('truetype'); /* Ruta relativa desde el CSS */
+    font-weight: normal; /* Opcional: puedes definir bold, light, etc. */
+    font-style: normal;  /* Opcional: define normal, italic, etc. */
+  }
+
+  button {
+    font-family: 'Atlanta', sans-serif;
+    background: #67B26F;
+    background: -webkit-linear-gradient(to right, #f12711, #f5af19);
+    background: linear-gradient(to right, #0F2027, #203A43, #2C5364);
+    border: none;
+    display: block;
+    width: 80%;
+    margin: 10px auto;
+    color: #fff;
+    height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px; /* Redondea los bordes del botón */
+  }
