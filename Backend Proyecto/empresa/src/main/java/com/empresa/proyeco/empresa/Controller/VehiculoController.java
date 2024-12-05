@@ -25,7 +25,7 @@ public class VehiculoController {
     @Autowired
     private VehiculoRepository vehiculoRepository;
 
-    // Obtener todos los vehículos
+   
     @GetMapping
     public List<VehiculoDTO> getVehiculos() {
         return vehiculoRepository.findAll().stream()
@@ -33,7 +33,7 @@ public class VehiculoController {
                 .collect(Collectors.toList());
     }
 
-    // Obtener un vehículo por ID
+    
     @GetMapping("/{id}")
     public VehiculoDTO getVehiculo(@PathVariable Long id) {
         Vehiculo vehiculo = vehiculoRepository.findById(id)
@@ -41,7 +41,7 @@ public class VehiculoController {
         return convertToDTO(vehiculo);
     }
 
-    // Crear un nuevo vehículo
+   
     @PostMapping
     public VehiculoDTO createVehiculo(@RequestBody VehiculoDTO vehiculoDTO) {
         Vehiculo vehiculo = convertToEntity(vehiculoDTO);
@@ -49,7 +49,7 @@ public class VehiculoController {
         return convertToDTO(savedVehiculo);
     }
 
-    // Actualizar un vehículo existente
+    
     @PutMapping("/{id}")
     public VehiculoDTO updateVehiculo(@PathVariable Long id, @RequestBody VehiculoDTO vehiculoDTO) {
         Vehiculo vehiculo = vehiculoRepository.findById(id)
@@ -64,7 +64,7 @@ public class VehiculoController {
         return convertToDTO(updatedVehiculo);
     }
 
-    // Eliminar un vehículo
+   
     @DeleteMapping("/{id}")
     public String deleteVehiculo(@PathVariable Long id) {
         Vehiculo vehiculo = vehiculoRepository.findById(id)
@@ -74,7 +74,7 @@ public class VehiculoController {
         return "Vehículo eliminado con éxito";
     }
 
-    // Métodos de conversión entre DTO y entidad
+    
     private VehiculoDTO convertToDTO(Vehiculo vehiculo) {
         return VehiculoDTO.builder()
                 .idVehiculo(vehiculo.getIdVehiculo())

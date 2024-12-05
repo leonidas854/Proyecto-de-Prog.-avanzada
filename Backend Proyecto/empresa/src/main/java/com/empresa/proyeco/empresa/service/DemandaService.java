@@ -26,7 +26,7 @@ public class DemandaService {
         List<Demanda> demandas = demandaRepository.findByUsuarioId(userId);
     
         if (demandas == null || demandas.isEmpty()) {
-            return new ArrayList<>(); // Devuelve una lista vacía si no hay demandas
+            return new ArrayList<>(); 
         }
     
         return demandas.stream()

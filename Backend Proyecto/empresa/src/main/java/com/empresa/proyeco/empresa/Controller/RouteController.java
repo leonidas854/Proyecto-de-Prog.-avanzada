@@ -23,28 +23,28 @@ public class RouteController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
+    
     @PostMapping("/calcular")
     public List<Map<String, Double>> calcularRutaOptima(@RequestParam String nombreSucursal) {
-    // Buscar la sucursal en la base de datos
+    
     Usuario sucursal = usuarioRepository.findByNombreAndTipoUsuario(nombreSucursal, TipoUsuario.SUCURSAL)
             .orElseThrow(() -> new RuntimeException("Sucursal no encontrada: " + nombreSucursal));
 
-    // Buscar todos los clientes registrados
+    
     List<Usuario> clientes = usuarioRepository.findAllByTipoUsuario(TipoUsuario.CLIENTE);
 
     if (clientes.isEmpty()) {
         throw new RuntimeException("No hay clientes registrados en la base de datos.");
     }
 
-    // Agregar sucursal al grafo
+   
     routeService.agregarUbicacion(
             sucursal.getNombre(),
             sucursal.getLatitud().doubleValue(),
             sucursal.getLongitud().doubleValue()
     );
 
-    // Agregar todos los clientes al grafo
+   
     for (Usuario cliente : clientes) {
         routeService.agregarUbicacion(
                 cliente.getNombre(),
@@ -53,7 +53,7 @@ public class RouteController {
         );
     }
 
-    // Calcular la ruta óptima desde la sucursal
+    
     List<String> nombresClientes = clientes.stream()
                                            .map(Usuario::getNombre)
                                            .toList();

@@ -22,8 +22,7 @@ public class ParametrosDemandaController {
     @Autowired
     private ParametrosDemandaRepository parametrosDemandaRepository;
 
-    // Endpoint para guardar parámetros
-    // Endpoint para guardar Alpha y Gamma
+  
     @PostMapping
     public ResponseEntity<ParametrosDemandaDTO> guardarParametros(@RequestBody ParametrosDemandaDTO dto) {
         ParametrosDemandaDTO saved = service.guardarParametros(dto);
@@ -33,7 +32,7 @@ public class ParametrosDemandaController {
 public ResponseEntity<List<String>> obtenerNombresParametros() {
     List<String> nombres = parametrosDemandaRepository.findAll()
         .stream()
-        .map(ParametrosDemanda::getNombre) // Asume que tienes un campo "nombre" en ParametrosDemanda
+        .map(ParametrosDemanda::getNombre) 
         .collect(Collectors.toList());
     return ResponseEntity.ok(nombres);
 }

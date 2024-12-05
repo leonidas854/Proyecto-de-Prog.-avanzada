@@ -18,7 +18,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
-    //private final RouteService routeService;
+    
     private final UsuarioRepository usuarioRepository;
   @Autowired
     private DemandaRepository demandaRepository;
@@ -27,10 +27,10 @@ public class UsuarioController {
 
     public UsuarioController(UsuarioRepository usuarioRepository, RouteService routeService) {
         this.usuarioRepository = usuarioRepository;
-        //this.routeService = routeService;
+      
     }
 
-    // Obtener todos los usuarios como DTO
+   
     @GetMapping
     public List<UsuarioDTO> getUsuarios() {
         return usuarioRepository.findAll().stream()
@@ -38,7 +38,7 @@ public class UsuarioController {
                 .collect(Collectors.toList());
     }
 
-    // Obtener un usuario por ID como DTO
+    
     @GetMapping("/{id}")
     public UsuarioDTO getUsuario(@PathVariable Long id) {
         Usuario usuario = usuarioRepository.findById(id)
@@ -46,7 +46,7 @@ public class UsuarioController {
         return convertToDTO(usuario);
     }
 
-    // Crear un nuevo usuario a partir de un DTO
+    
     @PostMapping
     public UsuarioDTO createUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         Usuario usuario = convertToEntity(usuarioDTO);
@@ -63,7 +63,7 @@ public class UsuarioController {
 }
 
 
-    // Actualizar un usuario existente
+    
     @PutMapping("/{id}")
     public UsuarioDTO updateUsuario(@PathVariable Long id, @RequestBody UsuarioDTO detallesUsuarioDTO) {
         Usuario usuario = usuarioRepository.findById(id)
@@ -176,7 +176,7 @@ public ResponseEntity<List<DemandaDTO>> getDemandasByUsuario(@PathVariable Long 
                 .id(usuario.getId())
                 .nombre(usuario.getNombre())
                 .email(usuario.getEmail())
-                .password(usuario.getPassword()) // Asegúrate de asignar el campo password
+                .password(usuario.getPassword()) 
                 .contacto(usuario.getContacto())
                 .latitud(usuario.getLatitud())
                 .longitud(usuario.getLongitud())
@@ -211,7 +211,7 @@ public ResponseEntity<List<DemandaDTO>> getDemandasByUsuario(@PathVariable Long 
                 .id(usuarioDTO.getId())
                 .nombre(usuarioDTO.getNombre())
                 .email(usuarioDTO.getEmail())
-                .password(usuarioDTO.getPassword()) // Asegúrate de manejar adecuadamente la seguridad del password
+                .password(usuarioDTO.getPassword()) 
                 .contacto(usuarioDTO.getContacto())
                 .latitud(usuarioDTO.getLatitud())
                 .longitud(usuarioDTO.getLongitud())

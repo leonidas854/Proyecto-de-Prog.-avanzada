@@ -25,15 +25,13 @@ public class DemandaController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    /**
-     * Obtiene las demandas asociadas a un usuario por su ID.
-     */
+   
     @GetMapping("/{usuarioId}")
     public ResponseEntity<List<DemandaDTO>> obtenerDemandasPorUsuario(@PathVariable Long usuarioId) {
         List<Demanda> demandas = demandaRepository.findByUsuarioId(usuarioId);
 
         if (demandas.isEmpty()) {
-            return ResponseEntity.ok(List.of()); // Devuelve una lista vacía si no hay demandas.
+            return ResponseEntity.ok(List.of()); 
         }
 
         List<DemandaDTO> demandaDTOs = demandas.stream().map(demanda -> {
@@ -51,30 +49,28 @@ public class DemandaController {
         return ResponseEntity.ok(demandaDTOs);
     }
 
-    /**
-     * Crea una nueva demanda asociada a un usuario.
-     */
+    
     @PostMapping("/crear")
     public ResponseEntity<?> crearDemanda(@RequestBody DemandaDTO nuevaDemandaDTO) {
-        // Verificar que el usuario existe
+        
         Usuario usuario = usuarioRepository.findById(nuevaDemandaDTO.getIdUsuario()).orElse(null);
         if (usuario == null) {
             return ResponseEntity.badRequest().body("El usuario no existe.");
         }
 
-        // Crear la demanda
+       
         Demanda nuevaDemanda = Demanda.builder()
                 .cantidad(nuevaDemandaDTO.getCantidad())
-                .descripcion("Pendiente") // Descripción automática como "Pendiente".
+                .descripcion("Pendiente") 
                 .inicioVentana(nuevaDemandaDTO.getInicioVentana())
                 .finVentana(nuevaDemandaDTO.getFinVentana())
                 .usuario(usuario)
                 .build();
 
-        // Guardar en la base de datos
+        
         Demanda demandaGuardada = demandaRepository.save(nuevaDemanda);
 
-        // Convertir la respuesta a DTO
+   
         DemandaDTO demandaDTO = DemandaDTO.builder()
                 .idDemanda(demandaGuardada.getIdDemanda())
                 .cantidad(demandaGuardada.getCantidad())

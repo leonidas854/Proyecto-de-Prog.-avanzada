@@ -32,31 +32,31 @@ public class PrediccionDemandaService {
     private OfertaRepository ofertaRepository;
 
     public PrediccionDTO predecirDemanda(String nombreParametros, Long idDemanda, int rangoMeses, double precio, String nombrePrediccion) {
-        // Obtener los parámetros de demanda por nombre
+      
         ParametrosDemanda parametros = parametrosDemandaRepository.findByNombre(nombreParametros)
                 .orElseThrow(() -> new IllegalArgumentException("Parámetros no encontrados"));
     
         double alpha = parametros.getAlpha();
         double gamma = parametros.getGamma();
     
-        // Calcular K (sumatoria de todas las ofertas)
+      
         double K = ofertaRepository.findAll().stream()
                 .mapToDouble(Oferta::getCantidad)
                 .sum();
        
     
-        // Obtener la demanda inicial por ID
+   
         Demanda demanda = demandaRepository.findById(idDemanda)
                 .orElseThrow(() -> new IllegalArgumentException("Demanda no encontrada"));
     
         double D0 = demanda.getCantidad();
     
-        // Resolver predicción con Runge-Kutta
+     
         double h = 1; // Paso temporal (1 mes)
         double t = 0; // Tiempo inicial
         double D = D0; // Demanda inicial
     
-        StringBuilder prediccionTexto = new StringBuilder(); // Construir predicción como String
+        StringBuilder prediccionTexto = new StringBuilder(); 
     
         for (int i = 0; i < rangoMeses; i++) {
             double k1 = h * ecuacionDemanda(t, D, alpha, gamma, K, precio);
@@ -66,7 +66,7 @@ public class PrediccionDemandaService {
     
             D = D + (k1 + 2 * k2 + 2 * k3 + k4) / 6;
     
-            // Guardar cada iteración como texto
+         
             prediccionTexto.append(String.format("Mes %d: Demanda = %.2f%n", (i + 1), D));
     
             t += h;
@@ -79,12 +79,12 @@ public class PrediccionDemandaService {
             .prediccion(prediccionTexto.toString())
             .build();
     
-        // Retornar un PrediccionDTO con los datos generales
+    
         Prediccion prediccionGuardada = prediccionRepository.save(prediccion);
 
-    // Convertir a DTO y devolver
+   
     return PrediccionDTO.builder()
-            .id(prediccionGuardada.getId()) // Ahora el ID está generado automáticamente
+            .id(prediccionGuardada.getId()) 
             .nombre(prediccionGuardada.getNombre())
             .rangoMeses(prediccionGuardada.getRangoMeses())
             .precio(prediccionGuardada.getPrecio())
@@ -95,7 +95,7 @@ public class PrediccionDemandaService {
     
 
 
-    // Implementación de la ecuación diferencial f(D(t), t)
+   
     private double ecuacionDemanda(double t, double D, double alpha,double gamma, double K, double P) {
         return  alpha * (1 - D / K)*D - 12.41 * D * P +D * Math.pow(gamma, 2) * Math.sin((2 * Math.PI * t) / 12) - 0.00720474*D;
     }
@@ -111,8 +111,8 @@ private PrediccionDTO convertirADto(Prediccion prediccion) {
         .nombre(prediccion.getNombre())
         .rangoMeses(prediccion.getRangoMeses())
         .precio(prediccion.getPrecio())
-        .idParametrosDemanda(prediccion.getParametrosDemanda().getIdParametro()) // Asegúrate de que `getParametrosDemanda` existe
-        .prediccion(prediccion.getPrediccion()) // Texto o datos serializados
+        .idParametrosDemanda(prediccion.getParametrosDemanda().getIdParametro()) 
+        .prediccion(prediccion.getPrediccion()) 
         .build();
 }
 

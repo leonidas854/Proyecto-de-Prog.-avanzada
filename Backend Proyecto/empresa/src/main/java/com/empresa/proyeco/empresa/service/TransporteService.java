@@ -22,11 +22,11 @@ public class TransporteService {
     private PrediccionRepository prediccionRepository;
 
     public List<VehiculoDTO> simularTransporte(String nombrePrediccion) {
-        // Buscar predicción por nombre
+       
         Prediccion prediccion = prediccionRepository.findByNombre(nombrePrediccion)
                 .orElseThrow(() -> new IllegalArgumentException("Predicción no encontrada"));
     
-        // Deserializar el texto en el campo predicción
+      
         String[] lineasPrediccion;
         try {
             lineasPrediccion = prediccion.getPrediccion().split("\\r?\\n");
@@ -36,7 +36,7 @@ public class TransporteService {
     
         double demandaTotal = 0;
     
-        // Procesar las líneas para calcular la demanda total
+     
         for (String linea : lineasPrediccion) {
             if (linea.contains("Demanda")) {
                 try {
@@ -48,14 +48,14 @@ public class TransporteService {
             }
         }
     
-        // Obtener vehículos disponibles
+  
         List<Vehiculo> vehiculosDisponibles = vehiculoRepository.findByDisponibilidad("Disponible");
     
         if (vehiculosDisponibles.isEmpty()) {
             throw new IllegalArgumentException("No hay vehículos disponibles para la simulación.");
         }
     
-        // Calcular la capacidad total disponible
+     
         int capacidadTotal = vehiculosDisponibles.stream()
                 .mapToInt(Vehiculo::getCapacidadKg)
                 .sum();
@@ -83,7 +83,7 @@ public class TransporteService {
         Prediccion prediccion = prediccionRepository.findByNombre(nombrePrediccion)
                 .orElseThrow(() -> new IllegalArgumentException("Predicción no encontrada"));
     
-        // Deserializar el texto en el campo predicción
+     
         String[] lineasPrediccion;
         try {
             lineasPrediccion = prediccion.getPrediccion().split("\\r?\\n");

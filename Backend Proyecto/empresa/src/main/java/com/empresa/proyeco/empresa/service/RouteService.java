@@ -18,12 +18,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class RouteService {
-    private final Map<String, double[]> ubicaciones; // Coordenadas de ubicaciones
+    private final Map<String, double[]> ubicaciones; 
     private final List<Edge> edges;
-    private static final int INF = Integer.MAX_VALUE; // Conexiones entre ubicaciones
+    private static final int INF = Integer.MAX_VALUE; 
 
     @Value("${google.api.key}")
-    private String googleApiKey; // Clave de la API de Google
+    private String googleApiKey; 
 
     private final RestTemplate restTemplate;
 
@@ -33,16 +33,16 @@ public class RouteService {
         this.restTemplate = restTemplate;
     }
 
-    // Agregar una ubicación al mapa
+   
     public void agregarUbicacion(String nombre, double latitud, double longitud) {
         if (!ubicaciones.containsKey(nombre)) {
             ubicaciones.put(nombre, new double[]{latitud, longitud});
         }
     }
 
-    // Calcular la ruta óptima desde una sucursal a todos los clientes
+   
     public List<Map<String, Double>> calcularRutaOptimaDesdeSucursal(String nombreSucursal, List<String> clientes) {
-        // Validar que la sucursal y los clientes están registrados
+      
         if (!ubicaciones.containsKey(nombreSucursal)) {
             throw new RuntimeException("Sucursal no encontrada en el sistema: " + nombreSucursal);
         }
@@ -52,23 +52,24 @@ public class RouteService {
             }
         }
 
-        // Crear lista de nodos involucrados
+        
         List<String> nodos = new ArrayList<>();
-        nodos.add(nombreSucursal); // Sucursal como punto de partida
+        nodos.add(nombreSucursal);
         nodos.addAll(clientes);
 
-        // Generar matriz de distancias y lista de aristas
+       
         int[][] matrizDistancias = crearMatrizDistancias(nodos);
         List<Edge> edges = crearListaEdges(nodos);
 
-        // Resolver el problema del Cartero Chino
+       
         ChinesePostman chinesePostman = new ChinesePostman();
         int costoTotal = chinesePostman.solve(matrizDistancias, edges);
 
-        // Ordenar la ruta óptima
-        List<String> rutaOrdenada = nodos; // Aquí agregarías la lógica para ordenar la ruta
+       
 
-        // Convertir nodos en coordenadas para el frontend
+        List<String> rutaOrdenada = nodos; 
+
+       
         List<Map<String, Double>> coordenadas = new ArrayList<>();
         for (String nodo : rutaOrdenada) {
             double[] coords = ubicaciones.get(nodo);
@@ -81,7 +82,7 @@ public class RouteService {
         return coordenadas;
     }
 
-    // Crear matriz de distancias entre los nodos
+   
     private int[][] crearMatrizDistancias(List<String> nodos) {
         int n = nodos.size();
         int[][] matriz = new int[n][n];
@@ -89,16 +90,16 @@ public class RouteService {
             Arrays.fill(matriz[i], Integer.MAX_VALUE);
         }
 
-        // Rellenar la matriz con las distancias
+     
         for (Edge edge : edges) {
             matriz[edge.from][edge.to] = edge.cost;
-            matriz[edge.to][edge.from] = edge.cost; // Grafo no dirigido
+            matriz[edge.to][edge.from] = edge.cost; 
         }
 
         return matriz;
     }
 
-    // Crear lista de aristas
+  
     private List<Edge> crearListaEdges(List<String> nodos) {
         List<Edge> edges = new ArrayList<>();
         for (int i = 0; i < nodos.size(); i++) {
@@ -110,7 +111,7 @@ public class RouteService {
         return edges;
     }
 
-    // Calcular distancia (simulación)
+
     private double calcularDistancia(String origen, String destino) {
         double[] origenCoords = ubicaciones.get(origen);
     double[] destinoCoords = ubicaciones.get(destino);
@@ -126,17 +127,17 @@ public class RouteService {
     try {
         String response = restTemplate.getForObject(url, String.class);
 
-        // Parsear la respuesta JSON
+        
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(response);
 
-        // Verificar el estado de la respuesta
+       
         String status = rootNode.path("status").asText();
         if (!"OK".equals(status)) {
             throw new RuntimeException("Error en la API de Google Maps: " + status);
         }
 
-        // Extraer la distancia de la respuesta
+      
         JsonNode element = rootNode.path("rows").get(0).path("elements").get(0);
         String elementStatus = element.path("status").asText();
         if (!"OK".equals(elementStatus)) {
@@ -144,20 +145,20 @@ public class RouteService {
         }
 
         int distanciaEnMetros = element.path("distance").path("value").asInt();
-        return distanciaEnMetros / 1000.0; // Convertir a kilómetros
+        return distanciaEnMetros / 1000.0; 
     } catch (JsonProcessingException | RuntimeException e) {
         throw new RuntimeException("Error al calcular la distancia con Google Maps API: " + e.getMessage(), e);
     }
     }
 
-    private static final double COSTO_POR_KILOMETRO = 0.31; // Bs/km
+    private static final double COSTO_POR_KILOMETRO = 0.31; 
 
     public double calcularCosto(String origen, String destino) {
     double distanciaEnKm = calcularDistancia(origen, destino);
     return distanciaEnKm * COSTO_POR_KILOMETRO;
     }
 
-    // Clase para representar aristas
+  
     private static class Edge {
         int from, to, cost;
 
@@ -173,20 +174,20 @@ public class RouteService {
         private int solve(int[][] graph, List<Edge> edges) {
             int n = graph.length;
 
-            // Verificar si el grafo es Euleriano
+          
             int[] degrees = calculateDegrees(graph);
             List<Integer> oddVertices = findOddVertices(degrees);
 
             if (oddVertices.isEmpty()) {
-                // El grafo ya es Euleriano
+      
                 return calculateCost(edges);
             }
 
-            // Emparejar vértices impares
+     
             int[][] minPaths = floydWarshall(graph);
             int minCost = findMinimumMatching(oddVertices, minPaths);
 
-            // Sumar el costo adicional al costo inicial
+         
             return calculateCost(edges) + minCost;
         }
 

@@ -8,7 +8,7 @@ public class MetodoVogel {
     private static int costoTotal; 
 
     public static void resolverMetodoVogel(int[] oferta, int[] demanda, int[][] costos) {
-        // Balancear oferta y demanda
+     
         BalanceResult balanceResult = balancear(oferta, demanda, costos);
         oferta = balanceResult.oferta;
         demanda = balanceResult.demanda;
@@ -62,17 +62,17 @@ public class MetodoVogel {
             asignaciones[indiceFila][indiceColumna] = cantidad;
             costoTotal += cantidad * costos[indiceFila][indiceColumna];
 
-            // Actualizar oferta y demanda
+           
             oferta[indiceFila] -= cantidad;
             demanda[indiceColumna] -= cantidad;
 
-            // Verificar si todas las ofertas y demandas han sido asignadas
+          
             if (Arrays.stream(oferta).allMatch(o -> o == 0) && Arrays.stream(demanda).allMatch(d -> d == 0)) {
                 break;
             }
         }
 
-        // Mostrar resultados
+       
         System.out.println("Asignaciones:");
         for (int[] fila : asignaciones) {
             System.out.println(Arrays.toString(fila));

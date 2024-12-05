@@ -1,201 +1,220 @@
-'use client';
+'use client'; // Habilitar eventos en el cliente
+import { useState, useEffect } from 'react';
 
-import React, { useState, useEffect } from 'react';
-
-// Componente para la gráfica
-const Graph = ({ data }) => {
-  if (data.length === 0) {
-    return <p>No hay datos para graficar.</p>;
-  }
-
-  const maxX = Math.max(...data.map((d) => d.x));
-  const maxY = Math.max(...data.map((d) => d.y));
-  const minY = Math.min(...data.map((d) => d.y));
-
-  const scaleX = (x) => (x / maxX) * 600 + 50;
-  const scaleY = (y) => 400 - ((y - minY) / (maxY - minY)) * 350;
-
-  return (
-    <svg width="700" height="450" style={{ border: '1px solid black' }}>
-      <line x1="50" y1="400" x2="650" y2="400" stroke="black" />
-      <line x1="50" y1="50" x2="50" y2="400" stroke="black" />
-      {data.map((point, i) => (
-        <text key={`x-label-${i}`} x={scaleX(point.x)} y="420" fontSize="12" textAnchor="middle">
-          Mes {point.x}
-        </text>
-      ))}
-      {[...Array(5)].map((_, i) => {
-        const y = minY + (i * (maxY - minY)) / 4;
-        return (
-          <text key={`y-label-${i}`} x="20" y={scaleY(y)} fontSize="12" textAnchor="end">
-            {y.toFixed(2)}
-          </text>
-        );
-      })}
-      {data.map((point, i) => {
-        const x = scaleX(point.x);
-        const y = scaleY(point.y);
-
-        return (
-          <g key={`point-${i}`}>
-            {i > 0 && (
-              <line
-                x1={scaleX(data[i - 1].x)}
-                y1={scaleY(data[i - 1].y)}
-                x2={x}
-                y2={y}
-                stroke="blue"
-                strokeWidth="2"
-              />
-            )}
-            <circle cx={x} cy={y} r="4" fill="red" />
-          </g>
-        );
-      })}
-    </svg>
-  );
-};
-
-// Componente principal
-export default function SimulacionTransporte() {
-  const [nombrePrediccion, setNombrePrediccion] = useState('');
-  const [predicciones, setPredicciones] = useState([]);
-  const [vehiculosAsignados, setVehiculosAsignados] = useState([]);
+export default function LogisticaPage() {
+  const [asignaciones, setAsignaciones] = useState([]);
   const [mensaje, setMensaje] = useState('');
-  const [reporte, setReporte] = useState('');
-  const [graphData, setGraphData] = useState([]);
-
-  // Cargar predicciones desde el backend
-  useEffect(() => {
-    const fetchPredicciones = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/prediccion/todas');
-        if (response.ok) {
-          const data = await response.json();
-          setPredicciones(data);
-        } else {
-          setMensaje('Error al cargar predicciones.');
-        }
-      } catch (error) {
-        console.error('Error al obtener las predicciones:', error);
-        setMensaje('Error de conexión.');
+  const [calculando, setCalculando] = useState(false);
+  const [map, setMap] = useState(null);
+  const [directionsRenderer, setDirectionsRenderer] = useState(null);
+  const handleDownloadPDF = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/reporte/asignaciones/pdf', {
+        method: 'GET',
+      });
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'reporte_asignaciones.pdf';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setMensaje('Reporte descargado exitosamente.');
+      } else {
+        setMensaje('Error al generar el reporte.');
       }
-    };
+    } catch (error) {
+      console.error('Error al descargar el PDF:', error);
+      setMensaje('Error en la conexión al servidor.');
+    }
+  };
 
-    fetchPredicciones();
+  // Cargar Google Maps
+  useEffect(() => {
+    const scriptId = 'google-maps-script';
+    const existingScript = document.getElementById(scriptId);
+
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyA_FbkeABMabU27PSRYMy2fzU1RPDaeWKY&callback=initMap`;
+      script.async = true;
+      script.defer = true;
+
+      window.initMap = () => {
+        const initialCoords = { lat: -17.3938, lng: -66.1568 };
+        const mapInstance = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: initialCoords,
+        });
+        setMap(mapInstance);
+
+        const renderer = new google.maps.DirectionsRenderer({ map: mapInstance });
+        setDirectionsRenderer(renderer);
+      };
+
+      document.body.appendChild(script);
+    } else if (window.google) {
+      window.initMap();
+    }
   }, []);
 
-  // Simular transporte
-  const handleSimulacion = async (e) => {
-    e.preventDefault();
-    setMensaje('');
-    setReporte('');
-
-    if (!nombrePrediccion) {
-      setMensaje('Debe seleccionar una predicción válida.');
-      return;
-    }
-
+  // Cargar asignaciones desde el backend
+  const fetchAsignaciones = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/transporte/simular?nombrePrediccion=${nombrePrediccion}`,
-        { method: 'POST' }
-      );
+      const response = await fetch('http://localhost:8080/logistica/asignaciones');
+      const data = await response.json();
 
-      if (response.ok) {
-        const data = await response.json();
-        setVehiculosAsignados(data);
-        setMensaje('Simulación exitosa.');
+      if (Array.isArray(data)) {
+        setAsignaciones(data);
+        plotAssignmentsOnMap(data);
       } else {
-        const errorText = await response.text();
-        setMensaje(`Error: ${errorText}`);
+        console.error('Respuesta inesperada:', data);
+        setMensaje('Error: El servidor no devolvió un arreglo.');
       }
     } catch (error) {
-      setMensaje('Error al conectar con el servidor.');
+      console.error('Error al cargar asignaciones:', error);
+      setMensaje('Error cargando asignaciones.');
     }
   };
 
-  // Generar reporte
-  const handleGenerarReporte = async () => {
+  // Calcular asignaciones en el backend
+  const handleCalculateRoutes = async () => {
+    setCalculando(true);
     setMensaje('');
-    setVehiculosAsignados([]);
-
-    if (!nombrePrediccion) {
-      setMensaje('Debe seleccionar una predicción válida.');
-      return;
-    }
-
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/transporte/reporte?nombrePrediccion=${nombrePrediccion}`,
-        { method: 'POST' }
-      );
-
+      const response = await fetch('http://localhost:8080/logistica/calcular');
       if (response.ok) {
-        const data = await response.text();
-        setReporte(data);
-
-        const processedData = data
-          .split('\n')
-          .filter((line) => line.includes('Demanda'))
-          .map((line) => {
-            const match = line.match(/Mes (\d+): Demanda = ([\d.-]+)/);
-            if (match) {
-              return { x: parseInt(match[1], 10), y: parseFloat(match[2]) };
-            }
-            return null;
-          })
-          .filter((item) => item !== null);
-
-        setGraphData(processedData);
+        setMensaje('Asignaciones calculadas exitosamente.');
+        await fetchAsignaciones();
       } else {
-        const errorText = await response.text();
-        setMensaje(`Error: ${errorText}`);
+        setMensaje('Error al calcular asignaciones.');
       }
     } catch (error) {
-      setMensaje('Error al conectar con el servidor.');
+      console.error('Error en la conexión al servidor:', error);
+      setMensaje('Error en la conexión al servidor.');
+    } finally {
+      setCalculando(false);
     }
   };
+
+  // Dibujar asignaciones en el mapa
+  const plotAssignmentsOnMap = (assignments) => {
+    if (!map || !directionsRenderer) return;
+
+    assignments.forEach((assignment) => {
+      // Crear marcadores
+      new google.maps.Marker({
+        position: assignment.origen,
+        map,
+        label: assignment.sucursal,
+        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+      });
+
+      new google.maps.Marker({
+        position: assignment.destino,
+        map,
+        label: assignment.cliente,
+      });
+
+      // Dibujar rutas
+      const directionsService = new google.maps.DirectionsService();
+      directionsService.route(
+        {
+          origin: assignment.origen,
+          destination: assignment.destino,
+          travelMode: google.maps.TravelMode.DRIVING,
+        },
+        (result, status) => {
+          if (status === google.maps.DirectionsStatus.OK) {
+            directionsRenderer.setDirections(result);
+          } else {
+            console.error('Error dibujando la ruta:', status);
+          }
+        }
+      );
+    });
+  };
+
+  // Cargar asignaciones al inicio
+  useEffect(() => {
+    fetchAsignaciones();
+  }, []);
 
   return (
-    <div>
-      <h1>Simulación de Transporte</h1>
-      <form onSubmit={handleSimulacion}>
-        <label>Seleccione una Predicción:</label>
-        <select
-          value={nombrePrediccion}
-          onChange={(e) => setNombrePrediccion(e.target.value)}
-          required
-        >
-          <option value="">Seleccione...</option>
-          {predicciones.map((prediccion) => (
-            <option key={prediccion.id} value={prediccion.nombre}>
-              {prediccion.nombre}
-            </option>
-          ))}
-        </select>
-        <br />
-        <button type="submit">Simular Transporte</button>
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+      <h1>Logística de Rutas Óptimas</h1>
+      {mensaje && <p style={{ color: 'green' }}>{mensaje}</p>}
+
+      <div style={{ marginBottom: '20px' }}>
         <button
-          type="button"
-          onClick={handleGenerarReporte}
-          style={{ marginLeft: '10px' }}
+          onClick={handleCalculateRoutes}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#007BFF',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            marginRight: '10px',
+          }}
+          disabled={calculando}
         >
-          Generar Reporte
+          {calculando ? 'Calculando...' : 'Calcular Asignaciones'}
         </button>
-      </form>
-      {mensaje && <p>{mensaje}</p>}
-      {vehiculosAsignados.length > 0 && (
-        <ul>
-          {vehiculosAsignados.map((vehiculo, index) => (
-            <li key={index}>
-              {vehiculo.placa} - Capacidad: {vehiculo.capacidadKg} Kg
-            </li>
-          ))}
-        </ul>
-      )}
-      {reporte && <pre>{reporte}</pre>}
-      {graphData.length > 0 && <Graph data={graphData} />}
+        <button
+          onClick={handleDownloadPDF}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#28A745',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+          }}
+        >
+          Descargar Reporte PDF
+        </button>
+      </div>
+
+      {/* Tabla y mapa existentes */}
+      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
+        <thead>
+          <tr>
+            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#f4f4f4' }}>
+              Sucursal
+            </th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#f4f4f4' }}>
+              Cliente
+            </th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#f4f4f4' }}>
+              Cantidad
+            </th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#f4f4f4' }}>
+              Costo (Bs)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.isArray(asignaciones) &&
+            asignaciones.map((asignacion, index) => (
+              <tr key={index}>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{asignacion.sucursal}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}>{asignacion.cliente}</td>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                  {asignacion.cantidad || 'N/A'}
+                </td>
+                <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                  {asignacion.costo || 'N/A'}
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+
+      <div id="map" style={{ width: '100%', height: '500px', border: '1px solid black' }}></div>
     </div>
   );
 }

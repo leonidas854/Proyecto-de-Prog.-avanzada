@@ -15,14 +15,14 @@ public class OfertaController {
     @Autowired
     private OfertaService ofertaService;
 
-    // Obtener todas las ofertas
+   
     @GetMapping
     public ResponseEntity<List<OfertaDTO>> getAllOfertas() {
         List<OfertaDTO> ofertas = ofertaService.getAllOfertas();
         return ResponseEntity.ok(ofertas);
     }
 
-    // Obtener una oferta por ID
+
     @GetMapping("/{id}")
     public ResponseEntity<OfertaDTO> getOfertaById(@PathVariable Long id) {
         OfertaDTO oferta = ofertaService.getOfertaById(id);
@@ -32,14 +32,14 @@ public class OfertaController {
         return ResponseEntity.ok(oferta);
     }
 
-    // Crear una nueva oferta
+    
     @PostMapping
     public ResponseEntity<OfertaDTO> createOferta(@RequestBody OfertaDTO ofertaDTO) {
         OfertaDTO nuevaOferta = ofertaService.createOferta(ofertaDTO);
         return ResponseEntity.ok(nuevaOferta);
     }
 
-    // Actualizar una oferta existente
+ 
     @PutMapping("/{id}")
     public ResponseEntity<OfertaDTO> updateOferta(@PathVariable Long id, @RequestBody OfertaDTO ofertaDTO) {
         OfertaDTO ofertaActualizada = ofertaService.updateOferta(id, ofertaDTO);
@@ -49,7 +49,7 @@ public class OfertaController {
         return ResponseEntity.ok(ofertaActualizada);
     }
 
-    // Eliminar una oferta
+  
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOferta(@PathVariable Long id) {
         boolean eliminado = ofertaService.deleteOferta(id);

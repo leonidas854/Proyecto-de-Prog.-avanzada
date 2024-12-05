@@ -34,6 +34,6 @@ public class AsignacionRuta {
     @Builder.Default
     private LocalDateTime fechadeAsignacion= LocalDateTime.now();
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 2000)
     private String detalles; // Detalles de la ruta e itinerario.
 }
